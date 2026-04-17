@@ -1,47 +1,45 @@
--- Sample Modules
+﻿-- StudyNest Database Seeder
+-- This file loads modules and questions data
+
+-- Load modules first
+-- Then load questions
+
+-- SEMESTER 2 MODULES (5 subjects)
 INSERT INTO modules (name, semester, image_url, pdf_url, video_link, external_links) VALUES
-('Computer Networks', 6, '/images/computer-networks.png', 'https://drive.google.com/sample1', 'https://youtu.be/VwN91x5i25g', 'https://www.geeksforgeeks.org/computer-network-tutorials/'),
-('Compiler Design', 6, '/images/compiler-design.png', 'https://drive.google.com/sample2', 'https://youtu.be/XUsw5igq4DM', 'https://www.geeksforgeeks.org/compiler-design-tutorials/'),
-('Machine Learning', 6, '/images/machine-learning.png', 'https://drive.google.com/sample3', 'https://youtu.be/ZftI2fEz0Fw', 'https://www.geeksforgeeks.org/machine-learning/'),
-('Data Structures', 3, '/images/data-structures.png', 'https://drive.google.com/sample4', 'https://youtu.be/sample', 'https://www.geeksforgeeks.org/data-structures/'),
-('Operating Systems', 4, '/images/operating-systems.png', 'https://drive.google.com/sample5', 'https://youtu.be/sample', 'https://www.geeksforgeeks.org/operating-systems/');
+('Engineering Mathematics II', 2, '/images/sem2/math2.png', 'https://drive.google.com/math2', 'https://youtu.be/math2', 'https://www.geeksforgeeks.org/engineering-mathematics/'),
+('Physics', 2, '/images/sem2/physics.png', 'https://drive.google.com/physics', 'https://youtu.be/physics', 'https://www.geeksforgeeks.org/physics/'),
+('Programming in C', 2, '/images/sem2/c-programming.png', 'https://drive.google.com/c-prog', 'https://youtu.be/c-prog', 'https://www.geeksforgeeks.org/c-programming-language/'),
+('Digital Electronics', 2, '/images/sem2/digital.png', 'https://drive.google.com/digital', 'https://youtu.be/digital', 'https://www.geeksforgeeks.org/digital-electronics-logic-design-tutorials/'),
+('Engineering Graphics', 2, '/images/sem2/graphics.png', 'https://drive.google.com/graphics', 'https://youtu.be/graphics', 'https://www.geeksforgeeks.org/engineering-graphics/');
 
--- Sample Questions for Computer Networks (Module 1)
-INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer, module_id) VALUES
-('What does TCP stand for?', 'Transmission Control Protocol', 'Transfer Control Protocol', 'Transitional Control Protocol', 'Transport Connection Protocol', 'Transmission Control Protocol', 1),
-('Which device operates at the network layer?', 'Router', 'Switch', 'Hub', 'Repeater', 'Router', 1),
-('Which protocol is used to assign IP addresses?', 'HTTP', 'IP', 'DHCP', 'DNS', 'DHCP', 1),
-('What is the function of DNS?', 'Encrypt data', 'Resolve IP addresses to domain names', 'Route data packets', 'Create firewalls', 'Resolve IP addresses to domain names', 1),
-('What is the full form of HTTP?', 'HyperText Transfer Protocol', 'Hyper Terminal Transfer Protocol', 'High Transfer Text Protocol', 'Hypertext Text Transfer Protocol', 'HyperText Transfer Protocol', 1);
+-- SEMESTER 3 MODULES (5 subjects)
+INSERT INTO modules (name, semester, image_url, pdf_url, video_link, external_links) VALUES
+('Data Structures', 3, '/images/sem3/ds.png', 'https://drive.google.com/ds', 'https://youtu.be/ds', 'https://www.geeksforgeeks.org/data-structures/'),
+('Discrete Mathematics', 3, '/images/sem3/dm.png', 'https://drive.google.com/dm', 'https://youtu.be/dm', 'https://www.geeksforgeeks.org/discrete-mathematics-tutorial/'),
+('Computer Organization', 3, '/images/sem3/co.png', 'https://drive.google.com/co', 'https://youtu.be/co', 'https://www.geeksforgeeks.org/computer-organization-and-architecture-tutorials/'),
+('Object Oriented Programming', 3, '/images/sem3/oop.png', 'https://drive.google.com/oop', 'https://youtu.be/oop', 'https://www.geeksforgeeks.org/object-oriented-programming-oops-concept-in-java/'),
+('Database Management Systems', 3, '/images/sem3/dbms.png', 'https://drive.google.com/dbms', 'https://youtu.be/dbms', 'https://www.geeksforgeeks.org/dbms/');
 
--- Sample Questions for Compiler Design (Module 2)
-INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer, module_id) VALUES
-('What is the first phase of a compiler?', 'Syntax Analysis', 'Lexical Analysis', 'Semantic Analysis', 'Code Generation', 'Lexical Analysis', 2),
-('Which data structure is used in syntax analysis?', 'Queue', 'Stack', 'Tree', 'Array', 'Stack', 2),
-('What is parsing?', 'Code execution', 'Syntax checking', 'Memory allocation', 'None', 'Syntax checking', 2),
-('Which tool is used for lexical analysis?', 'Yacc', 'Lex', 'GCC', 'JavaCC', 'Lex', 2),
-('What is an intermediate code?', 'Final machine code', 'Temporary code between source and target', 'Binary code', 'None', 'Temporary code between source and target', 2);
+-- SEMESTER 4 MODULES (5 subjects)
+INSERT INTO modules (name, semester, image_url, pdf_url, video_link, external_links) VALUES
+('Operating Systems', 4, '/images/sem4/os.png', 'https://drive.google.com/os', 'https://youtu.be/os', 'https://www.geeksforgeeks.org/operating-systems/'),
+('Design and Analysis of Algorithms', 4, '/images/sem4/daa.png', 'https://drive.google.com/daa', 'https://youtu.be/daa', 'https://www.geeksforgeeks.org/fundamentals-of-algorithms/'),
+('Computer Networks', 4, '/images/sem4/cn.png', 'https://drive.google.com/cn', 'https://youtu.be/cn', 'https://www.geeksforgeeks.org/computer-network-tutorials/'),
+('Software Engineering', 4, '/images/sem4/se.png', 'https://drive.google.com/se', 'https://youtu.be/se', 'https://www.geeksforgeeks.org/software-engineering/'),
+('Web Technologies', 4, '/images/sem4/web.png', 'https://drive.google.com/web', 'https://youtu.be/web', 'https://www.geeksforgeeks.org/web-development/');
 
--- Sample Questions for Machine Learning (Module 3)
-INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer, module_id) VALUES
-('What is Machine Learning?', 'Data storage', 'Learning from data to make predictions', 'Programming', 'App development', 'Learning from data to make predictions', 3),
-('Which of these is a supervised learning algorithm?', 'K-Means', 'Linear Regression', 'Apriori', 'DBSCAN', 'Linear Regression', 3),
-('Which technique is used for classification?', 'Linear Regression', 'Decision Tree', 'Clustering', 'Histogram', 'Decision Tree', 3),
-('Which library is commonly used in ML with Python?', 'NumPy', 'Matplotlib', 'Scikit-learn', 'BeautifulSoup', 'Scikit-learn', 3),
-('What is overfitting?', 'Model performs well on all data', 'Model performs well on training but poorly on test', 'Model does not train', 'None', 'Model performs well on training but poorly on test', 3);
+-- SEMESTER 5 MODULES (5 subjects)
+INSERT INTO modules (name, semester, image_url, pdf_url, video_link, external_links) VALUES
+('Theory of Computation', 5, '/images/sem5/toc.png', 'https://drive.google.com/toc', 'https://youtu.be/toc', 'https://www.geeksforgeeks.org/theory-of-computation-automata-tutorials/'),
+('Compiler Design', 5, '/images/sem5/cd.png', 'https://drive.google.com/cd', 'https://youtu.be/cd', 'https://www.geeksforgeeks.org/compiler-design-tutorials/'),
+('Artificial Intelligence', 5, '/images/sem5/ai.png', 'https://drive.google.com/ai', 'https://youtu.be/ai', 'https://www.geeksforgeeks.org/artificial-intelligence/'),
+('Computer Graphics', 5, '/images/sem5/cg.png', 'https://drive.google.com/cg', 'https://youtu.be/cg', 'https://www.geeksforgeeks.org/computer-graphics/'),
+('Cryptography', 5, '/images/sem5/crypto.png', 'https://drive.google.com/crypto', 'https://youtu.be/crypto', 'https://www.geeksforgeeks.org/cryptography/');
 
--- Sample Questions for Data Structures (Module 4)
-INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer, module_id) VALUES
-('Which data structure uses FIFO?', 'Stack', 'Queue', 'Tree', 'Graph', 'Queue', 4),
-('What is the worst-case time for binary search?', 'O(n)', 'O(log n)', 'O(n log n)', 'O(1)', 'O(log n)', 4),
-('Which data structure uses LIFO?', 'Queue', 'Stack', 'Graph', 'Tree', 'Stack', 4),
-('Which traversal gives sorted output in BST?', 'Preorder', 'Inorder', 'Postorder', 'Level-order', 'Inorder', 4),
-('Which structure is used in recursion?', 'Queue', 'Stack', 'Tree', 'Array', 'Stack', 4);
-
--- Sample Questions for Operating Systems (Module 5)
-INSERT INTO questions (question_text, option1, option2, option3, option4, correct_answer, module_id) VALUES
-('What is the main function of an OS?', 'Compile code', 'Manage hardware and software resources', 'Browse internet', 'Edit documents', 'Manage hardware and software resources', 5),
-('Which scheduling algorithm is non-preemptive?', 'Round Robin', 'FCFS', 'Priority Scheduling', 'Multilevel Queue', 'FCFS', 5),
-('What is a deadlock?', 'System crash', 'Processes waiting indefinitely for resources', 'Fast execution', 'Memory overflow', 'Processes waiting indefinitely for resources', 5),
-('Which memory management technique divides memory into fixed-size blocks?', 'Segmentation', 'Paging', 'Virtual Memory', 'Cache', 'Paging', 5),
-('What is thrashing?', 'Excessive paging activity', 'Fast CPU', 'Low memory', 'Disk failure', 'Excessive paging activity', 5);
+-- SEMESTER 6 MODULES (5 subjects)
+INSERT INTO modules (name, semester, image_url, pdf_url, video_link, external_links) VALUES
+('Machine Learning', 6, '/images/sem6/ml.png', 'https://drive.google.com/ml', 'https://youtu.be/ml', 'https://www.geeksforgeeks.org/machine-learning/'),
+('Cloud Computing', 6, '/images/sem6/cloud.png', 'https://drive.google.com/cloud', 'https://youtu.be/cloud', 'https://www.geeksforgeeks.org/cloud-computing/'),
+('Big Data Analytics', 6, '/images/sem6/bigdata.png', 'https://drive.google.com/bigdata', 'https://youtu.be/bigdata', 'https://www.geeksforgeeks.org/big-data-analytics/'),
+('Internet of Things', 6, '/images/sem6/iot.png', 'https://drive.google.com/iot', 'https://youtu.be/iot', 'https://www.geeksforgeeks.org/introduction-to-internet-of-things-iot-set-1/'),
+('Cyber Security', 6, '/images/sem6/security.png', 'https://drive.google.com/security', 'https://youtu.be/security', 'https://www.geeksforgeeks.org/cyber-security/');
