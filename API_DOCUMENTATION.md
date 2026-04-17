@@ -803,9 +803,11 @@ Authorization: Bearer <student-token>
 
 ---
 
-## 🧪 Testing with cURL
+## 📱 Alternative Testing Methods
 
-### Register a Student
+### Option 1: Using cURL (Command Line)
+
+#### Register a Student
 ```bash
 curl -X POST http://localhost:8080/api/auth/student/register \
   -H "Content-Type: application/json" \
@@ -820,7 +822,7 @@ curl -X POST http://localhost:8080/api/auth/student/register \
   }'
 ```
 
-### Login
+#### Login
 ```bash
 curl -X POST http://localhost:8080/api/auth/login \
   -H "Content-Type: application/json" \
@@ -830,13 +832,13 @@ curl -X POST http://localhost:8080/api/auth/login \
   }'
 ```
 
-### Get All Modules (with token)
+#### Get All Modules (with token)
 ```bash
 curl -X GET http://localhost:8080/api/modules \
   -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE"
 ```
 
-### Submit Test
+#### Submit Test
 ```bash
 curl -X POST http://localhost:8080/api/tests/submit \
   -H "Authorization: Bearer YOUR_JWT_TOKEN_HERE" \
@@ -855,14 +857,20 @@ curl -X POST http://localhost:8080/api/tests/submit \
 
 ---
 
-## 🧪 Testing with Postman
+### Option 2: Using Postman
 
-1. **Import Collection**: Create a new collection in Postman
-2. **Set Base URL**: `http://localhost:8080`
-3. **Add Authorization**: 
+1. **Download Postman**: https://www.postman.com/downloads/
+2. **Create New Collection**: "StudyNest API"
+3. **Set Base URL Variable**: `{{baseUrl}}` = `http://localhost:8080`
+4. **Add Authorization**:
+   - Go to Collection → Authorization
    - Type: Bearer Token
-   - Token: `<your-jwt-token>`
-4. **Test Endpoints**: Use the examples above
+   - Token: `{{token}}`
+5. **Create Requests**: Use the endpoint examples from this document
+6. **Save Token**: After login, save token to `{{token}}` variable
+
+**Postman Collection Import:**
+You can create a collection with all endpoints and share it with your team.
 
 ---
 
@@ -924,11 +932,262 @@ java -jar target/Study-Nest-0.0.1-SNAPSHOT.jar
 
 ## 🎯 Next Steps
 
-1. Visit **Swagger UI**: http://localhost:8080/swagger-ui.html
-2. Test the endpoints using the interactive documentation
-3. Register a student and tutor account
-4. Login and get JWT tokens
-5. Test protected endpoints with the tokens
+### For Beginners:
+1. ✅ **Start the backend application** (see Quick Start above)
+2. ✅ **Open Swagger UI**: http://localhost:8080/swagger-ui.html
+3. ✅ **Follow the Step-by-Step Testing Tutorial** (above)
+4. ✅ **Register as student and test all endpoints**
+5. ✅ **Register as tutor and compare access**
+
+### For Developers:
+1. ✅ **Review the API endpoints** in Swagger UI
+2. ✅ **Test error scenarios** (invalid data, wrong roles, etc.)
+3. ✅ **Check the H2 database** at http://localhost:8080/h2-console
+4. ✅ **Integrate with frontend** using the provided endpoints
+5. ✅ **Customize and extend** the API as needed
+
+### For Testers:
+1. ✅ **Create test cases** based on the scenarios above
+2. ✅ **Test all validation rules** (email format, password length, etc.)
+3. ✅ **Test role-based access control** (student vs tutor)
+4. ✅ **Test edge cases** (empty data, special characters, etc.)
+5. ✅ **Document bugs** with request/response examples
+
+---
+
+## 📸 Visual Guide
+
+### Swagger UI Main Page
+```
+┌─────────────────────────────────────────────────────────┐
+│  StudyNest API                                    🔓 Authorize │
+├─────────────────────────────────────────────────────────┤
+│  ▼ Authentication                                        │
+│     POST /api/auth/student/register                     │
+│     POST /api/auth/tutor/register                       │
+│     POST /api/auth/login                                │
+│                                                          │
+│  ▼ Modules                                              │
+│     GET  /api/modules                                   │
+│     GET  /api/modules/semester/{semester}               │
+│     GET  /api/modules/{id}                              │
+│                                                          │
+│  ▼ Questions                                            │
+│     GET  /api/questions/module/{moduleId}               │
+│     GET  /api/questions/module/{moduleId}/with-answers  │
+│                                                          │
+│  ▼ Tests                                                │
+│     POST /api/tests/submit                              │
+│     GET  /api/tests/results                             │
+│                                                          │
+│  ▼ Students                                             │
+│     GET  /api/students/profile                          │
+└─────────────────────────────────────────────────────────┘
+```
+
+### Testing Flow Diagram
+```
+┌──────────────┐
+│ 1. Register  │
+│   Student    │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ 2. Copy JWT  │
+│    Token     │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ 3. Click     │
+│  Authorize   │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ 4. Paste     │
+│    Token     │
+└──────┬───────┘
+       │
+       ▼
+┌──────────────┐
+│ 5. Test      │
+│  Endpoints   │
+└──────────────┘
+```
+
+---
+
+## 🎓 Learning Resources
+
+### Understanding REST APIs
+- **GET**: Retrieve data (read-only)
+- **POST**: Create new data
+- **PUT**: Update existing data
+- **DELETE**: Remove data
+
+### Understanding JWT Tokens
+- JWT = JSON Web Token
+- Used for secure authentication
+- Contains user information (email, role)
+- Expires after 24 hours
+- Must be included in Authorization header
+
+### Understanding HTTP Status Codes
+- **2xx**: Success (200, 201)
+- **4xx**: Client errors (400, 401, 404, 409)
+- **5xx**: Server errors (500)
+
+---
+
+## 🔧 Configuration Details
+
+### Application Configuration
+- **Port**: 8080
+- **Database**: H2 In-Memory
+- **JWT Expiration**: 24 hours
+- **CORS**: Enabled for http://localhost:4200
+
+### Security Configuration
+- **Public Endpoints**: `/api/auth/**`, `/h2-console/**`, `/swagger-ui/**`
+- **Protected Endpoints**: All others require JWT token
+- **Roles**: STUDENT, TUTOR
+- **Password Encoding**: BCrypt
+
+### Database Configuration
+- **Type**: H2 In-Memory Database
+- **Mode**: create-drop (recreates on each restart)
+- **Initial Data**: 5 modules, 25 questions (pre-loaded)
+- **Console**: Enabled at `/h2-console`
+
+---
+
+## 📊 Sample Test Data
+
+### Pre-loaded Modules
+1. **Computer Networks** (Semester 6) - 5 questions
+2. **Compiler Design** (Semester 6) - 5 questions
+3. **Machine Learning** (Semester 6) - 5 questions
+4. **Data Structures** (Semester 3) - 5 questions
+5. **Operating Systems** (Semester 4) - 5 questions
+
+### Test Accounts (Create Your Own)
+You need to register accounts using the API. Here are example credentials:
+
+**Student Account:**
+- Email: `student@studynest.com`
+- Password: `student123`
+- Roll No: `CS2024001`
+- PRN: `PRN2024001`
+- Semester: 6
+
+**Tutor Account:**
+- Email: `tutor@studynest.com`
+- Password: `tutor123`
+- Mobile: `9876543210`
+
+---
+
+## 🚨 Important Notes
+
+1. **Database Reset**: Data is lost when application restarts (H2 in-memory)
+2. **Token Expiry**: JWT tokens expire after 24 hours
+3. **Pass Criteria**: Students need 40% or above to pass
+4. **Unique Fields**: Email, Roll No, PRN, Mobile must be unique
+5. **Role Access**: Students and tutors have different endpoint access
+6. **CORS**: Frontend must run on http://localhost:4200 or update CORS config
+
+---
+
+## 🎬 Quick Start Video Script
+
+**Minute 1: Setup**
+1. Open terminal
+2. Navigate to backend folder
+3. Run `./mvnw spring-boot:run`
+4. Wait for "Started StudyNestApplication"
+
+**Minute 2: Access Swagger**
+1. Open browser
+2. Go to http://localhost:8080/swagger-ui.html
+3. See all available endpoints
+
+**Minute 3: Register**
+1. Expand "Authentication" section
+2. Click POST /api/auth/student/register
+3. Click "Try it out"
+4. Fill in details
+5. Click "Execute"
+6. Copy JWT token from response
+
+**Minute 4: Authorize**
+1. Click "Authorize" button (top right)
+2. Paste token
+3. Click "Authorize"
+4. Click "Close"
+
+**Minute 5: Test Endpoints**
+1. Try GET /api/students/profile
+2. Try GET /api/modules
+3. Try GET /api/questions/module/1
+4. Try POST /api/tests/submit
+5. Try GET /api/tests/results
+
+---
+
+## 📞 Support & Troubleshooting
+
+### Getting Help
+1. **Check this documentation** - Most answers are here
+2. **Review error messages** - They provide specific details
+3. **Check application logs** - Look at terminal output
+4. **Verify token** - Make sure you're authorized
+5. **Restart application** - Sometimes fixes issues
+
+### Reporting Issues
+When reporting issues, include:
+- Endpoint URL
+- Request body (if applicable)
+- Response status code
+- Error message
+- Steps to reproduce
+
+---
+
+## ✅ Testing Checklist
+
+### Authentication Testing
+- [ ] Register student with valid data
+- [ ] Register student with duplicate email (should fail)
+- [ ] Register student with invalid email format (should fail)
+- [ ] Register tutor with valid data
+- [ ] Login with correct credentials
+- [ ] Login with wrong password (should fail)
+
+### Module Testing
+- [ ] Get all modules
+- [ ] Get modules by semester
+- [ ] Get module by ID
+- [ ] Get module with invalid ID (should fail)
+
+### Question Testing
+- [ ] Get questions as student (no answers)
+- [ ] Get questions as tutor (with answers)
+- [ ] Try tutor endpoint as student (should fail)
+
+### Test Submission Testing
+- [ ] Submit test with all correct answers
+- [ ] Submit test with some wrong answers
+- [ ] Submit test with invalid module ID (should fail)
+- [ ] View all test results
+- [ ] Submit same test again (should update result)
+
+### Authorization Testing
+- [ ] Access protected endpoint without token (should fail)
+- [ ] Access protected endpoint with expired token (should fail)
+- [ ] Access student endpoint as tutor (should fail)
+- [ ] Access tutor endpoint as student (should fail)
 
 ---
 
