@@ -1,5 +1,14 @@
 package com.deepak.Study_Nest.service;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
 import com.deepak.Study_Nest.dao.ModuleRepository;
 import com.deepak.Study_Nest.dao.QuestionRepository;
 import com.deepak.Study_Nest.dao.StudentRepository;
@@ -11,16 +20,9 @@ import com.deepak.Study_Nest.entity.Question;
 import com.deepak.Study_Nest.entity.Student;
 import com.deepak.Study_Nest.entity.StudentResult;
 import com.deepak.Study_Nest.exception.ResourceNotFoundException;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
-import java.math.RoundingMode;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -62,7 +64,7 @@ public class TestService {
                 .multiply(BigDecimal.valueOf(100))
                 .divide(BigDecimal.valueOf(totalQuestions), 2, RoundingMode.HALF_UP);
 
-        String status = percentage.compareTo(BigDecimal.valueOf(40)) >= 0 ? "PASS" : "FAIL";
+        String status = percentage.compareTo(BigDecimal.valueOf(40)) >= 0 ? "PASSED" : "FAILED";
 
         // Save or update result
         StudentResult result = resultRepository
@@ -85,10 +87,13 @@ public class TestService {
         return TestResultDto.builder()
                 .id(result.getId())
                 .moduleName(module.getName())
+                .semester(module.getSemester())
                 .score(correctAnswers)
+                .correctAnswers(correctAnswers)
                 .totalQuestions(totalQuestions)
                 .percentage(percentage)
                 .status(status)
+                .passed(status.equals("PASSED"))
                 .completedAt(result.getCompletedAt())
                 .build();
     }
@@ -107,7 +112,19 @@ public class TestService {
                         .percentage(result.getPercentage())
                         .status(result.getStatus())
                         .completedAt(result.getCompletedAt())
+                        .semester(result.getModule().getSemester())
+                        .correctAnswers(result.getScore())
+                        .passed(result.getStatus().equals("PASSED"))
                         .build())
                 .collect(Collectors.toList());
+    }
+
+    public Map<Long, Long> getQuestionCountsByModule() {
+        List<Question> allQuestions = questionRepository.findAll();
+        return allQuestions.stream()
+                .collect(Collectors.groupingBy(
+                        q -> q.getModule().getId(),
+                        Collectors.counting()
+                ));
     }
 }

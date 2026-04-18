@@ -1,0 +1,21 @@
+.module-card {
+  border-radius: 12px;
+  border: none;
+  transition: all 0.3s ease;
+}
+
+.module-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(74, 144, 226, 0.2) !important;
+}
+
+.module-card .card-title {
+  font-size: 1.1rem;
+  font-weight: 600;
+  color: #2c3e50;
+}
+
+.module-card .badge {
+  font-size: 0.75rem;
+  padding: 0.35em 0.65em;
+}

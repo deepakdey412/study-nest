@@ -1,0 +1,470 @@
+================================================================================
+                    STUDYNEST BACKEND API DOCUMENTATION
+================================================================================
+
+BASE URL: http://localhost:8080/api
+
+================================================================================
+                        AUTHENTICATION ENDPOINTS
+================================================================================
+
+1. STUDENT REGISTRATION
+   Method: POST
+   Path: /api/auth/student/register
+   Auth Required: No
+   
+   Request Body:
+   {
+     "name": "string (2-100 chars, required)",
+     "rollNo": "string (required)",
+     "prn": "string (required)",
+     "semester": "integer (1-8, required)",
+     "email": "string (valid email, required)",
+     "password": "string (min 6 chars, required)",
+     "mobile": "string (10 digits, required)"
+   }
+   
+   Response (201 Created):
+   {
+     "token": "JWT token string",
+     "role": "STUDENT",
+     "email": "student@example.com",
+     "name": "Student Name"
+   }
+
+---
+
+2. TUTOR REGISTRATION
+   Method: POST
+   Path: /api/auth/tutor/register
+   Auth Required: No
+   
+   Request Body:
+   {
+     "name": "string (2-100 chars, required)",
+     "mobileNo": "string (10 digits, required)",
+     "email": "string (valid email, required)",
+     "password": "string (min 6 chars, required)"
+   }
+   
+   Response (201 Created):
+   {
+     "token": "JWT token string",
+     "role": "TUTOR",
+     "email": "tutor@example.com",
+     "name": "Tutor Name"
+   }
+
+---
+
+3. LOGIN (Student/Tutor)
+   Method: POST
+   Path: /api/auth/login
+   Auth Required: No
+   
+   Request Body:
+   {
+     "email": "string (valid email, required)",
+     "password": "string (required)"
+   }
+   
+   Response (200 OK):
+   {
+     "token": "JWT token string",
+     "role": "STUDENT or TUTOR",
+     "email": "user@example.com",
+     "name": "User Name"
+   }
+
+================================================================================
+                        MODULE ENDPOINTS
+================================================================================
+
+4. GET ALL MODULES
+   Method: GET
+   Path: /api/modules
+   Auth Required: Yes (STUDENT or TUTOR)
+   Headers: Authorization: Bearer {token}
+   
+   Response (200 OK):
+   [
+     {
+       "id": 1,
+       "name": "Engineering Mathematics II",
+       "semester": 2,
+       "imageUrl": "/images/sem2/math2.png",
+       "pdfUrl": "https://drive.google.com/math2",
+       "videoLink": "https://youtu.be/math2",
+       "externalLinks": "https://www.geeksforgeeks.org/engineering-mathematics/",
+       "questionCount": 10
+     },
+     ...
+   ]
+
+---
+
+5. GET MODULES BY SEMESTER
+   Method: GET
+   Path: /api/modules/semester/{semester}
+   Auth Required: Yes (STUDENT or TUTOR)
+   Headers: Authorization: Bearer {token}
+   Path Parameters: semester (integer: 2, 3, 4, 5, or 6)
+   
+   Response (200 OK):
+   [
+     {
+       "id": 1,
+       "name": "Engineering Mathematics II",
+       "semester": 2,
+       "imageUrl": "/images/sem2/math2.png",
+       "pdfUrl": "https://drive.google.com/math2",
+       "videoLink": "https://youtu.be/math2",
+       "externalLinks": "https://www.geeksforgeeks.org/engineering-mathematics/",
+       "questionCount": 10
+     },
+     ...
+   ]
+
+---
+
+6. GET MODULE BY ID
+   Method: GET
+   Path: /api/modules/{id}
+   Auth Required: Yes (STUDENT or TUTOR)
+   Headers: Authorization: Bearer {token}
+   Path Parameters: id (Long)
+   
+   Response (200 OK):
+   {
+     "id": 1,
+     "name": "Engineering Mathematics II",
+     "semester": 2,
+     "imageUrl": "/images/sem2/math2.png",
+     "pdfUrl": "https://drive.google.com/math2",
+     "videoLink": "https://youtu.be/math2",
+     "externalLinks": "https://www.geeksforgeeks.org/engineering-mathematics/",
+     "questionCount": 10
+   }
+
+================================================================================
+                        QUESTION ENDPOINTS
+================================================================================
+
+7. GET QUESTIONS FOR STUDENT (without answers)
+   Method: GET
+   Path: /api/questions/module/{moduleId}
+   Auth Required: Yes (STUDENT only)
+   Headers: Authorization: Bearer {token}
+   Path Parameters: moduleId (Long)
+   
+   Response (200 OK):
+   [
+     {
+       "id": 1,
+       "questionText": "What is the Laplace transform of 1?",
+       "option1": "1/s",
+       "option2": "s",
+       "option3": "1",
+       "option4": "s^2",
+       "correctAnswer": null  // Hidden for students
+     },
+     ...
+   ]
+
+---
+
+8. GET QUESTIONS FOR TUTOR (with answers)
+   Method: GET
+   Path: /api/questions/module/{moduleId}/with-answers
+   Auth Required: Yes (TUTOR only)
+   Headers: Authorization: Bearer {token}
+   Path Parameters: moduleId (Long)
+   
+   Response (200 OK):
+   [
+     {
+       "id": 1,
+       "questionText": "What is the Laplace transform of 1?",
+       "option1": "1/s",
+       "option2": "s",
+       "option3": "1",
+       "option4": "s^2",
+       "correctAnswer": "1/s"  // Visible for tutors
+     },
+     ...
+   ]
+
+================================================================================
+                        TEST ENDPOINTS
+================================================================================
+
+9. SUBMIT TEST
+   Method: POST
+   Path: /api/tests/submit
+   Auth Required: Yes (STUDENT only)
+   Headers: Authorization: Bearer {token}
+   
+   Request Body:
+   {
+     "moduleId": 1,
+     "answers": {
+       "1": "1/s",           // questionId: selectedAnswer
+       "2": "Laplace Transform",
+       "3": "2",
+       ...
+     }
+   }
+   
+   Response (200 OK):
+   {
+     "id": 1,
+     "moduleName": "Engineering Mathematics II",
+     "score": 8,
+     "totalQuestions": 10,
+     "percentage": 80.00,
+     "status": "PASS",
+     "completedAt": "2026-04-17T19:30:00"
+   }
+
+---
+
+10. GET STUDENT TEST RESULTS
+    Method: GET
+    Path: /api/tests/results
+    Auth Required: Yes (STUDENT only)
+    Headers: Authorization: Bearer {token}
+    
+    Response (200 OK):
+    [
+      {
+        "id": 1,
+        "moduleName": "Engineering Mathematics II",
+        "score": 8,
+        "totalQuestions": 10,
+        "percentage": 80.00,
+        "status": "PASS",
+        "completedAt": "2026-04-17T19:30:00"
+      },
+      ...
+    ]
+
+================================================================================
+                        STUDENT PROFILE ENDPOINT
+================================================================================
+
+11. GET STUDENT PROFILE
+    Method: GET
+    Path: /api/students/profile
+    Auth Required: Yes (STUDENT only)
+    Headers: Authorization: Bearer {token}
+    
+    Response (200 OK):
+    {
+      "id": 1,
+      "name": "John Doe",
+      "rollNo": "CS2024001",
+      "prn": "PRN2024001",
+      "semester": 6,
+      "email": "john@studynest.com",
+      "mobile": "9876543210"
+    }
+
+================================================================================
+                        CERTIFICATE ENDPOINT
+================================================================================
+
+12. GENERATE CERTIFICATE
+    Method: GET
+    Path: /api/certificate/generate
+    Auth Required: Yes (STUDENT only)
+    Headers: Authorization: Bearer {token}
+    
+    Eligibility Criteria:
+    - Minimum 40% average percentage across all tests
+    - At least 80% of tests passed
+    
+    Response (200 OK):
+    {
+      "certificateNumber": "CERT-2026-SEM06-2024001",
+      "studentName": "John Doe",
+      "rollNo": "CS2024001",
+      "prn": "PRN2024001",
+      "semester": 6,
+      "totalTests": 5,
+      "passedTests": 5,
+      "averagePercentage": 85.50,
+      "issueDate": "17 April 2026"
+    }
+    
+    Error Response (if not eligible):
+    {
+      "message": "Student not eligible for certificate. Requirements: 40% average and 80% tests passed"
+    }
+
+================================================================================
+                        DATABASE STRUCTURE
+================================================================================
+
+SEMESTERS: 2, 3, 4, 5, 6 (Total: 5 semesters)
+MODULES PER SEMESTER: 5 subjects
+QUESTIONS PER MODULE: 10 MCQ questions
+TOTAL MODULES: 25
+TOTAL QUESTIONS: 250
+
+SEMESTER 2 MODULES:
+1. Engineering Mathematics II
+2. Physics
+3. Programming in C
+4. Digital Electronics
+5. Engineering Graphics
+
+SEMESTER 3 MODULES:
+6. Data Structures
+7. Discrete Mathematics
+8. Computer Organization
+9. Object Oriented Programming
+10. Database Management Systems
+
+SEMESTER 4 MODULES:
+11. Operating Systems
+12. Design and Analysis of Algorithms
+13. Computer Networks
+14. Software Engineering
+15. Web Technologies
+
+SEMESTER 5 MODULES:
+16. Theory of Computation
+17. Compiler Design
+18. Artificial Intelligence
+19. Computer Graphics
+20. Cryptography
+
+SEMESTER 6 MODULES:
+21. Machine Learning
+22. Cloud Computing
+23. Big Data Analytics
+24. Internet of Things
+25. Cyber Security
+
+================================================================================
+                        AUTHENTICATION & AUTHORIZATION
+================================================================================
+
+JWT TOKEN:
+- Token is returned in login/register response
+- Must be included in Authorization header for protected endpoints
+- Format: Authorization: Bearer {token}
+- Token expires after 24 hours
+- Store token in localStorage/sessionStorage
+
+ROLES:
+- STUDENT: Can access modules, take tests, view results, generate certificate
+- TUTOR: Can access modules with answers, view all questions with correct answers
+
+CORS:
+- Allowed Origins: http://localhost:3000, http://localhost:5173, http://localhost:5174
+- Allowed Methods: GET, POST, PUT, DELETE, OPTIONS, PATCH
+- Credentials: Allowed
+
+================================================================================
+                        ERROR RESPONSES
+================================================================================
+
+400 Bad Request:
+{
+  "message": "Validation error message",
+  "errors": ["Field error 1", "Field error 2"]
+}
+
+401 Unauthorized:
+{
+  "message": "Invalid credentials" or "Token expired"
+}
+
+403 Forbidden:
+{
+  "message": "Access denied"
+}
+
+404 Not Found:
+{
+  "message": "Resource not found"
+}
+
+409 Conflict:
+{
+  "message": "Email already exists"
+}
+
+500 Internal Server Error:
+{
+  "message": "Internal server error"
+}
+
+================================================================================
+                        TESTING WORKFLOW
+================================================================================
+
+1. Register as Student
+2. Login to get JWT token
+3. Get modules by semester
+4. Select a module
+5. Get questions for that module (without answers)
+6. Submit test with answers
+7. View test results
+8. Complete multiple tests
+9. Generate certificate (if eligible)
+
+================================================================================
+                        NOTES FOR FRONTEND DEVELOPMENT
+================================================================================
+
+1. Store JWT token in localStorage after login/register
+2. Add token to all API requests in Authorization header
+3. Implement auto-logout on 401 response
+4. Show loading states during API calls
+5. Handle all error responses gracefully
+6. Validate forms before submission
+7. Use React Router for navigation
+8. Implement protected routes for authenticated pages
+9. Show different UI for STUDENT vs TUTOR roles
+10. Display certificate only when eligible
+
+================================================================================
+                        RECOMMENDED FRONTEND PAGES
+================================================================================
+
+PUBLIC PAGES:
+- Landing/Home Page
+- Login Page
+- Student Registration Page
+- Tutor Registration Page
+
+STUDENT PROTECTED PAGES:
+- Dashboard (Overview of progress)
+- Modules Page (List all modules by semester)
+- Module Detail Page (View module content, resources)
+- Test Page (Take MCQ test)
+- Results Page (View all test results)
+- Certificate Page (Generate and download certificate)
+- Profile Page (View/Edit profile)
+
+TUTOR PROTECTED PAGES:
+- Dashboard
+- Modules Page
+- Questions Page (View questions with answers)
+
+COMMON COMPONENTS:
+- Navbar (with login/logout)
+- Sidebar (for navigation)
+- Module Card
+- Question Card
+- Result Card
+- Certificate Component
+- Loading Spinner
+- Error Alert
+- Success Alert
+
+================================================================================
+                        END OF DOCUMENTATION
+================================================================================

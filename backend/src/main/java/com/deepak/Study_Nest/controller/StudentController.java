@@ -21,4 +21,13 @@ public class StudentController {
         String email = authentication.getName();
         return ResponseEntity.ok(studentService.getStudentProfile(email));
     }
+
+    @PutMapping("/profile")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<StudentProfileDto> updateProfile(
+            @RequestBody StudentProfileDto profileDto,
+            Authentication authentication) {
+        String email = authentication.getName();
+        return ResponseEntity.ok(studentService.updateStudentProfile(email, profileDto));
+    }
 }

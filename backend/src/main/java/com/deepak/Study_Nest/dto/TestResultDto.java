@@ -15,9 +15,12 @@ import java.time.LocalDateTime;
 public class TestResultDto {
     private Long id;
     private String moduleName;
+    private Integer semester;
     private Integer score;
+    private Integer correctAnswers;
     private Integer totalQuestions;
     private BigDecimal percentage;
     private String status;
+    private Boolean passed;
     private LocalDateTime completedAt;
 }

@@ -40,4 +40,10 @@ public class TestController {
         String email = authentication.getName();
         return ResponseEntity.ok(testService.getStudentResults(email));
     }
+
+    // Debug endpoint to check question counts
+    @GetMapping("/debug/question-counts")
+    public ResponseEntity<?> getQuestionCounts() {
+        return ResponseEntity.ok(testService.getQuestionCountsByModule());
+    }
 }
