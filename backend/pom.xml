@@ -91,6 +91,13 @@
 			<scope>runtime</scope>
 		</dependency>
 
+		<!-- Apache PDFBox for PDF generation -->
+		<dependency>
+			<groupId>org.apache.pdfbox</groupId>
+			<artifactId>pdfbox</artifactId>
+			<version>2.0.29</version>
+		</dependency>
+
 	</dependencies>
 
 	<build>

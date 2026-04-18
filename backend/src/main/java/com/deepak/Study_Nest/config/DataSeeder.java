@@ -1,17 +1,23 @@
 package com.deepak.Study_Nest.config;
 
-import com.deepak.Study_Nest.dao.ModuleRepository;
-import com.deepak.Study_Nest.dao.QuestionRepository;
-import com.deepak.Study_Nest.entity.Module;
-import com.deepak.Study_Nest.entity.Question;
-import lombok.RequiredArgsConstructor;
-import lombok.extern.slf4j.Slf4j;
+import java.math.BigDecimal;
+import java.util.List;
+
 import org.springframework.boot.CommandLineRunner;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import com.deepak.Study_Nest.dao.ModuleRepository;
+import com.deepak.Study_Nest.dao.QuestionRepository;
+import com.deepak.Study_Nest.dao.StudentRepository;
+import com.deepak.Study_Nest.dao.StudentResultRepository;
+import com.deepak.Study_Nest.entity.Module;
+import com.deepak.Study_Nest.entity.Question;
+import com.deepak.Study_Nest.entity.Student;
+import com.deepak.Study_Nest.entity.StudentResult;
+
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 
 @Component
 @RequiredArgsConstructor
@@ -20,6 +26,9 @@ public class DataSeeder implements CommandLineRunner {
 
     private final ModuleRepository moduleRepository;
     private final QuestionRepository questionRepository;
+    private final StudentRepository studentRepository;
+    private final StudentResultRepository studentResultRepository;
+    private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
@@ -31,6 +40,7 @@ public class DataSeeder implements CommandLineRunner {
 
         log.info("Starting data seeding...");
         seedQuestions();
+        seedTestUser();
         log.info("Data seeding completed!");
     }
 
@@ -48,39 +58,13 @@ public class DataSeeder implements CommandLineRunner {
         // Seed 10 questions for each module
         for (Module module : modules) {
             for (int i = 1; i <= 10; i++) {
-                // Get the correct answer content and 3 wrong answers
-                String correctAnswerText = getOption(module, i, 1); // Correct answer
-                String wrongAnswer1 = getOption(module, i, 2);
-                String wrongAnswer2 = getOption(module, i, 3);
-                String wrongAnswer3 = getOption(module, i, 4);
-                
-                // Create a list of all options with their content
-                List<OptionPair> options = new ArrayList<>();
-                options.add(new OptionPair("option1", correctAnswerText, true));
-                options.add(new OptionPair("option2", wrongAnswer1, false));
-                options.add(new OptionPair("option3", wrongAnswer2, false));
-                options.add(new OptionPair("option4", wrongAnswer3, false));
-                
-                // Shuffle the options to randomize position of correct answer
-                Collections.shuffle(options);
-                
-                // After shuffle, update field names to match new positions
-                // and find which position has the correct answer
-                String correctAnswerField = "";
-                for (int j = 0; j < options.size(); j++) {
-                    options.get(j).fieldName = "option" + (j + 1);
-                    if (options.get(j).isCorrect) {
-                        correctAnswerField = "option" + (j + 1);
-                    }
-                }
-                
                 Question question = Question.builder()
                         .questionText(getQuestionText(module, i))
-                        .option1(options.get(0).content)
-                        .option2(options.get(1).content)
-                        .option3(options.get(2).content)
-                        .option4(options.get(3).content)
-                        .correctAnswer(correctAnswerField)
+                        .option1(getOption(module, i, 1))  // Correct answer - always first
+                        .option2(getOption(module, i, 2))  // Wrong answer
+                        .option3(getOption(module, i, 3))  // Wrong answer
+                        .option4(getOption(module, i, 4))  // Wrong answer
+                        .correctAnswer("option1")          // Always option1 is correct
                         .module(module)
                         .build();
                 
@@ -1041,16 +1025,58 @@ public class DataSeeder implements CommandLineRunner {
         return options[(qNum - 1) % options.length][optNum - 1];
     }
 
-    // Helper class to store option data during shuffling
-    private static class OptionPair {
-        String fieldName;
-        String content;
-        boolean isCorrect;
-
-        OptionPair(String fieldName, String content, boolean isCorrect) {
-            this.fieldName = fieldName;
-            this.content = content;
-            this.isCorrect = isCorrect;
+    /**
+     * Seeds a test user with completed Semester 6 tests for certificate testing
+     */
+    private void seedTestUser() {
+        // Check if test user already exists
+        if (studentRepository.findByEmail("test@studynest.com").isPresent()) {
+            log.info("Test user already exists. Skipping test user seeding.");
+            return;
         }
+
+        log.info("Creating test user for certificate testing...");
+
+        // Create test student
+        Student testStudent = Student.builder()
+                .name("Test Student")
+                .rollNo("TEST001")
+                .prn("TEST2024")
+                .semester(6)
+                .email("test@studynest.com")
+                .password(passwordEncoder.encode("test123"))
+                .mobile("9999999999")
+                .build();
+
+        testStudent = studentRepository.save(testStudent);
+        log.info("Test student created: {} ({})", testStudent.getName(), testStudent.getEmail());
+
+        // Get all Semester 6 modules
+        List<Module> semester6Modules = moduleRepository.findBySemester(6);
+        
+        if (semester6Modules.isEmpty()) {
+            log.warn("No Semester 6 modules found. Cannot create test results.");
+            return;
+        }
+
+        // Create passing test results for all Semester 6 modules
+        int resultsCreated = 0;
+        for (Module module : semester6Modules) {
+            StudentResult result = StudentResult.builder()
+                    .student(testStudent)
+                    .module(module)
+                    .score(8)  // 8 out of 10 (80%)
+                    .totalQuestions(10)
+                    .percentage(new BigDecimal("80.00"))
+                    .status("PASSED")
+                    .build();
+
+            studentResultRepository.save(result);
+            resultsCreated++;
+            log.info("Created test result for module: {} - Score: 8/10", module.getName());
+        }
+
+        log.info("Test user seeding completed! Created {} test results for Semester 6", resultsCreated);
+        log.info("Test user credentials - Email: test@studynest.com, Password: test123");
     }
 }

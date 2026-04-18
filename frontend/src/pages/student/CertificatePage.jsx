@@ -34,9 +34,19 @@ const CertificatePage = ({ user, onLogout }) => {
     setGenerating(true);
     setError('');
     try {
-      const blob = await certificateService.generateCertificate();
-      
-      // Create download link
+      const certData = await certificateService.generateCertificate();
+      setCertificate(certData);
+    } catch (error) {
+      console.error('Error generating certificate:', error);
+      setError(error.response?.data?.message || 'Failed to generate certificate. Please try again.');
+    } finally {
+      setGenerating(false);
+    }
+  };
+
+  const handleDownloadPdf = async () => {
+    try {
+      const blob = await certificateService.downloadCertificatePdf();
       const url = window.URL.createObjectURL(blob);
       const link = document.createElement('a');
       link.href = url;
@@ -45,13 +55,9 @@ const CertificatePage = ({ user, onLogout }) => {
       link.click();
       document.body.removeChild(link);
       window.URL.revokeObjectURL(url);
-
-      setCertificate({ generated: true, date: new Date() });
     } catch (error) {
-      console.error('Error generating certificate:', error);
-      setError('Failed to generate certificate. Please try again.');
-    } finally {
-      setGenerating(false);
+      console.error('Error downloading PDF:', error);
+      setError('Failed to download PDF certificate. Please try again.');
     }
   };
 
@@ -60,18 +66,18 @@ const CertificatePage = ({ user, onLogout }) => {
   const isEligible = eligibility?.eligible;
   const requirements = [
     {
-      label: 'Average Score',
-      required: '≥ 40%',
-      current: eligibility?.averageScore ? `${eligibility.averageScore.toFixed(1)}%` : 'N/A',
-      met: eligibility?.averageScore >= 40
+      label: 'Modules Completed',
+      required: '5/5',
+      current: eligibility?.testsTaken ? `${eligibility.testsTaken}/5` : '0/5',
+      met: eligibility?.testsTaken >= 5
     },
     {
-      label: 'Tests Passed',
-      required: '≥ 80%',
+      label: 'Tests with 6+ Score',
+      required: '5/5',
       current: eligibility?.testsTaken > 0 
-        ? `${((eligibility.testsPassed / eligibility.testsTaken) * 100).toFixed(0)}%`
-        : '0%',
-      met: eligibility?.testsTaken > 0 && (eligibility.testsPassed / eligibility.testsTaken) >= 0.8
+        ? `${eligibility.testsPassed}/5`
+        : '0/5',
+      met: eligibility?.testsPassed >= 5
     }
   ];
 
@@ -210,20 +216,43 @@ const CertificatePage = ({ user, onLogout }) => {
 
                   {isEligible ? (
                     <>
-                      <Button
-                        variant="success"
-                        size="lg"
-                        className="w-100 mb-3"
-                        onClick={handleGenerateCertificate}
-                        disabled={generating}
-                      >
-                        <FaDownload className="me-2" />
-                        {generating ? 'Generating...' : 'Download Certificate'}
-                      </Button>
-                      {certificate?.generated && (
-                        <Alert variant="success" className="small mb-0">
-                          Certificate downloaded successfully!
-                        </Alert>
+                      {!certificate ? (
+                        <Button
+                          variant="success"
+                          size="lg"
+                          className="w-100 mb-3"
+                          onClick={handleGenerateCertificate}
+                          disabled={generating}
+                        >
+                          <FaCertificate className="me-2" />
+                          {generating ? 'Generating...' : 'Generate Certificate'}
+                        </Button>
+                      ) : (
+                        <div className="certificate-preview p-4 mb-3">
+                          <h5 className="text-center fw-bold mb-3">🎓 Certificate of Completion</h5>
+                          <div className="text-center mb-3">
+                            <p className="mb-1"><strong>Certificate No:</strong> {certificate.certificateNumber}</p>
+                            <p className="mb-1"><strong>Student:</strong> {certificate.studentName}</p>
+                            <p className="mb-1"><strong>PRN:</strong> {certificate.prn}</p>
+                            <p className="mb-1"><strong>Roll No:</strong> {certificate.rollNo}</p>
+                            <p className="mb-1"><strong>Semester:</strong> {certificate.semester}</p>
+                            <p className="mb-1"><strong>Tests Passed:</strong> {certificate.passedTests}/{certificate.totalTests}</p>
+                            <p className="mb-1"><strong>Average:</strong> {certificate.averagePercentage}%</p>
+                            <p className="mb-0"><strong>Issue Date:</strong> {certificate.issueDate}</p>
+                          </div>
+                          <Alert variant="success" className="small mb-3 text-center">
+                            ✅ Certificate generated successfully!
+                          </Alert>
+                          <Button
+                            variant="primary"
+                            size="lg"
+                            className="w-100"
+                            onClick={handleDownloadPdf}
+                          >
+                            <FaDownload className="me-2" />
+                            Download PDF Certificate
+                          </Button>
+                        </div>
                       )}
                     </>
                   ) : (

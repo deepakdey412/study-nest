@@ -36,6 +36,9 @@ public class CertificateService {
                 .filter(r -> r.getModule().getSemester().equals(student.getSemester()))
                 .toList();
 
+        // Each semester has exactly 5 modules
+        int requiredModules = 5;
+        
         if (semesterResults.isEmpty()) {
             return EligibilityData.builder()
                     .eligible(false)
@@ -47,8 +50,10 @@ public class CertificateService {
         }
 
         long totalTests = semesterResults.size();
+        
+        // Count tests with at least 6/10 correct answers
         long passedTests = semesterResults.stream()
-                .filter(r -> "PASSED".equals(r.getStatus()))
+                .filter(r -> r.getScore() >= 6)  // At least 6 correct answers
                 .count();
         
         double averageScore = semesterResults.stream()
@@ -56,16 +61,20 @@ public class CertificateService {
                 .average()
                 .orElse(0.0);
 
-        // Check eligibility: 40% average AND 80% tests passed
-        boolean eligible = averageScore >= 40.0 && passedTests >= (totalTests * 0.8);
+        // Check eligibility: 
+        // 1. All 5 modules completed
+        // 2. At least 6/10 correct in each test
+        boolean allModulesCompleted = totalTests >= requiredModules;
+        boolean allTestsPassed = passedTests >= requiredModules;
+        boolean eligible = allModulesCompleted && allTestsPassed;
 
         String message;
         if (eligible) {
             message = "Congratulations! You are eligible for certificate";
-        } else if (averageScore < 40.0) {
-            message = "Average score must be at least 40%";
+        } else if (!allModulesCompleted) {
+            message = String.format("Complete all %d modules of semester %d", requiredModules, student.getSemester());
         } else {
-            message = "At least 80% of tests must be passed";
+            message = "Score at least 6/10 in all tests";
         }
 
         return EligibilityData.builder()
@@ -90,6 +99,8 @@ public class CertificateService {
                 .filter(r -> r.getModule().getSemester().equals(student.getSemester()))
                 .toList();
 
+        int requiredModules = 5;
+        
         if (semesterResults.isEmpty()) {
             throw new ResourceNotFoundException("No test results found for certificate generation");
         }
@@ -97,7 +108,7 @@ public class CertificateService {
         // Calculate overall statistics
         long totalTests = semesterResults.size();
         long passedTests = semesterResults.stream()
-                .filter(r -> "PASSED".equals(r.getStatus()))
+                .filter(r -> r.getScore() >= 6)  // At least 6 correct answers
                 .count();
         
         BigDecimal averagePercentage = semesterResults.stream()
@@ -105,12 +116,13 @@ public class CertificateService {
                 .reduce(BigDecimal.ZERO, BigDecimal::add)
                 .divide(BigDecimal.valueOf(totalTests), 2, BigDecimal.ROUND_HALF_UP);
 
-        // Check eligibility (at least 40% average and 80% tests passed)
-        boolean eligible = averagePercentage.compareTo(BigDecimal.valueOf(40)) >= 0 
-                && passedTests >= (totalTests * 0.8);
+        // Check eligibility: All 5 modules completed AND at least 6/10 in each
+        boolean allModulesCompleted = totalTests >= requiredModules;
+        boolean allTestsPassed = passedTests >= requiredModules;
+        boolean eligible = allModulesCompleted && allTestsPassed;
 
         if (!eligible) {
-            throw new RuntimeException("Student not eligible for certificate. Requirements: 40% average and 80% tests passed");
+            throw new RuntimeException("Student not eligible for certificate. Requirements: Complete all 5 modules with at least 6/10 score in each");
         }
 
         String certificateNumber = generateCertificateNumber(student);

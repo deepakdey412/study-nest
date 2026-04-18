@@ -11,6 +11,14 @@ const certificateService = {
   generateCertificate: async () => {
     const response = await api.get('/certificate/generate');
     return response.data;
+  },
+
+  // Download certificate PDF
+  downloadCertificatePdf: async () => {
+    const response = await api.get('/certificate/download-pdf', {
+      responseType: 'blob'
+    });
+    return response.data;
   }
 };
 
