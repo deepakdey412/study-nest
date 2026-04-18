@@ -94,3 +94,8 @@ Thumbs.db
 # Uncomment to ignore documentation files
 # *.md
 # !README.md
+
+# ===================================
+# Git Configuration Files
+# ===================================
+.gitignore
