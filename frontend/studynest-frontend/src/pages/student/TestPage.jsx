@@ -255,19 +255,19 @@ const TestPage = ({ user, onLogout }) => {
               {/* Question Card */}
               <Card className="border-0 shadow-sm mb-4">
                 <Card.Body className="p-4">
-                  <h4 className="fw-bold mb-4 text-dark">{question.questionText}</h4>
+                  <h5 className="fw-bold mb-3 text-dark">{question.questionText}</h5>
 
-                  <div className="d-grid gap-3">
+                  <div className="d-grid gap-2">
                     {['option1', 'option2', 'option3', 'option4'].map((option, index) => {
                       const isSelected = answers[question.id] === option;
                       return (
                         <div
                           key={option}
-                          className={`test-option p-4 rounded-3 ${isSelected ? 'selected' : ''}`}
+                          className={`test-option rounded-3 ${isSelected ? 'selected' : ''}`}
                           onClick={() => handleAnswerChange(question.id, option)}
                         >
-                          <div className="d-flex align-items-center">
-                            <div className={`option-badge me-3 ${isSelected ? 'selected' : ''}`}>
+                          <div className="d-flex align-items-center gap-3">
+                            <div className={`option-badge ${isSelected ? 'selected' : ''}`}>
                               {String.fromCharCode(65 + index)}
                             </div>
                             <span className="option-text">{question[option]}</span>
@@ -321,23 +321,22 @@ const TestPage = ({ user, onLogout }) => {
               <Card className="border-0 shadow-sm sticky-top" style={{ top: '20px' }}>
                 <Card.Body className="p-4">
                   <h6 className="fw-bold mb-3">Question Navigator</h6>
-                  <div className="d-grid gap-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                  <div className="question-nav-grid">
                     {questions.map((q, index) => (
-                      <Button
+                      <button
                         key={q.id}
-                        variant={
+                        type="button"
+                        className={`question-nav-btn ${
                           index === currentQuestion
-                            ? 'primary'
+                            ? 'current'
                             : answers[q.id]
-                            ? 'success'
-                            : 'outline-secondary'
-                        }
-                        size="sm"
+                            ? 'answered'
+                            : 'unanswered'
+                        }`}
                         onClick={() => setCurrentQuestion(index)}
-                        className="question-nav-btn"
                       >
                         {index + 1}
-                      </Button>
+                      </button>
                     ))}
                   </div>
 

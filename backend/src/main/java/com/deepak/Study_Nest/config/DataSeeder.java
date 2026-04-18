@@ -1,13 +1,15 @@
 package com.deepak.Study_Nest.config;
 
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
 import com.deepak.Study_Nest.dao.ModuleRepository;
 import com.deepak.Study_Nest.dao.QuestionRepository;
 import com.deepak.Study_Nest.entity.Module;
 import com.deepak.Study_Nest.entity.Question;
+
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
 
 @Component
 @RequiredArgsConstructor
@@ -73,7 +75,7 @@ public class DataSeeder implements CommandLineRunner {
             return getMathQuestion(questionNumber);
         } else if (moduleName.contains("data structure")) {
             return getDataStructureQuestion(questionNumber);
-        } else if (moduleName.contains("digital logic") || moduleName.contains("logic design")) {
+        } else if (moduleName.contains("digital") || moduleName.contains("logic")) {
             return getDigitalLogicQuestion(questionNumber);
         } else if (moduleName.contains("oop") || moduleName.contains("object oriented")) {
             return getOOPQuestion(questionNumber);
@@ -89,6 +91,36 @@ public class DataSeeder implements CommandLineRunner {
             return getSoftwareQuestion(questionNumber);
         } else if (moduleName.contains("web")) {
             return getWebQuestion(questionNumber);
+        } else if (moduleName.contains("cyber") || moduleName.contains("security")) {
+            return getCyberSecurityQuestion(questionNumber);
+        } else if (moduleName.contains("machine learning") || moduleName.contains("ml")) {
+            return getMachineLearningQuestion(questionNumber);
+        } else if (moduleName.contains("cloud")) {
+            return getCloudComputingQuestion(questionNumber);
+        } else if (moduleName.contains("artificial intelligence") || moduleName.contains("ai")) {
+            return getAIQuestion(questionNumber);
+        } else if (moduleName.contains("iot") || moduleName.contains("internet of things")) {
+            return getIoTQuestion(questionNumber);
+        } else if (moduleName.contains("big data")) {
+            return getBigDataQuestion(questionNumber);
+        } else if (moduleName.contains("compiler")) {
+            return getCompilerQuestion(questionNumber);
+        } else if (moduleName.contains("theory of computation") || moduleName.contains("toc")) {
+            return getTOCQuestion(questionNumber);
+        } else if (moduleName.contains("computer graphics") || moduleName.contains("cg")) {
+            return getComputerGraphicsQuestion(questionNumber);
+        } else if (moduleName.contains("cryptography") || moduleName.contains("crypto")) {
+            return getCryptographyQuestion(questionNumber);
+        } else if (moduleName.contains("physics")) {
+            return getPhysicsQuestion(questionNumber);
+        } else if (moduleName.contains("programming in c") || moduleName.contains("c programming")) {
+            return getCProgrammingQuestion(questionNumber);
+        } else if (moduleName.contains("discrete")) {
+            return getDiscreteMathQuestion(questionNumber);
+        } else if (moduleName.contains("computer organization") || moduleName.contains("co")) {
+            return getComputerOrganizationQuestion(questionNumber);
+        } else if (moduleName.contains("graphics") && !moduleName.contains("computer")) {
+            return getEngineeringGraphicsQuestion(questionNumber);
         }
         
         // Default generic question
@@ -103,7 +135,7 @@ public class DataSeeder implements CommandLineRunner {
             return getMathOption(questionNumber, optionNumber);
         } else if (moduleName.contains("data structure")) {
             return getDataStructureOption(questionNumber, optionNumber);
-        } else if (moduleName.contains("digital logic")) {
+        } else if (moduleName.contains("digital") || moduleName.contains("logic")) {
             return getDigitalLogicOption(questionNumber, optionNumber);
         } else if (moduleName.contains("oop") || moduleName.contains("object oriented")) {
             return getOOPOption(questionNumber, optionNumber);
@@ -119,6 +151,36 @@ public class DataSeeder implements CommandLineRunner {
             return getSoftwareOption(questionNumber, optionNumber);
         } else if (moduleName.contains("web")) {
             return getWebOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("cyber") || moduleName.contains("security")) {
+            return getCyberSecurityOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("machine learning") || moduleName.contains("ml")) {
+            return getMachineLearningOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("cloud")) {
+            return getCloudComputingOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("artificial intelligence") || moduleName.contains("ai")) {
+            return getAIOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("iot") || moduleName.contains("internet of things")) {
+            return getIoTOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("big data")) {
+            return getBigDataOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("compiler")) {
+            return getCompilerOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("theory of computation") || moduleName.contains("toc")) {
+            return getTOCOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("computer graphics") || moduleName.contains("cg")) {
+            return getComputerGraphicsOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("cryptography") || moduleName.contains("crypto")) {
+            return getCryptographyOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("physics")) {
+            return getPhysicsOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("programming in c") || moduleName.contains("c programming")) {
+            return getCProgrammingOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("discrete")) {
+            return getDiscreteMathOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("computer organization") || moduleName.contains("co")) {
+            return getComputerOrganizationOption(questionNumber, optionNumber);
+        } else if (moduleName.contains("graphics") && !moduleName.contains("computer")) {
+            return getEngineeringGraphicsOption(questionNumber, optionNumber);
         }
         
         // Default options
@@ -452,6 +514,501 @@ public class DataSeeder implements CommandLineRunner {
             {"Asynchronous JavaScript", "Synchronous JavaScript", "Advanced JavaScript", "None"},
             {"JavaScript library", "Programming language", "Database", "Server"},
             {"JavaScript runtime", "Programming language", "Database", "Framework"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Cyber Security Questions
+    private String getCyberSecurityQuestion(int num) {
+        String[] questions = {
+            "What is encryption?",
+            "Firewall is used for?",
+            "What is phishing?",
+            "SQL injection is?",
+            "What is malware?",
+            "Two-factor authentication provides?",
+            "What is a VPN?",
+            "DDoS attack means?",
+            "What is ransomware?",
+            "SSL/TLS provides?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getCyberSecurityOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Data protection", "Data deletion", "Data sorting", "Data searching"},
+            {"Network security", "Data storage", "File management", "Printing"},
+            {"Social engineering attack", "Hardware failure", "Software bug", "Network error"},
+            {"Code injection attack", "Hardware attack", "Physical attack", "Social attack"},
+            {"Malicious software", "Useful software", "System software", "Application software"},
+            {"Extra security layer", "Less security", "No security", "Single security"},
+            {"Virtual Private Network", "Very Private Network", "Virtual Public Network", "None"},
+            {"Distributed Denial of Service", "Direct Denial of Service", "Data Denial of Service", "None"},
+            {"Encrypts and demands payment", "Free software", "Antivirus", "Firewall"},
+            {"Secure communication", "Insecure communication", "No communication", "Fast communication"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Machine Learning Questions
+    private String getMachineLearningQuestion(int num) {
+        String[] questions = {
+            "What is supervised learning?",
+            "Unsupervised learning uses?",
+            "What is overfitting?",
+            "Neural network mimics?",
+            "What is gradient descent?",
+            "Classification predicts?",
+            "Regression predicts?",
+            "What is a feature?",
+            "Training data is used for?",
+            "What is cross-validation?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getMachineLearningOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Learning with labeled data", "Learning without labels", "No learning", "Random learning"},
+            {"Unlabeled data", "Labeled data", "No data", "Test data"},
+            {"Model too complex", "Model too simple", "Perfect model", "No model"},
+            {"Human brain", "Computer", "Network", "Database"},
+            {"Optimization algorithm", "Sorting algorithm", "Search algorithm", "None"},
+            {"Categories", "Continuous values", "Text", "Images"},
+            {"Continuous values", "Categories", "Text", "Images"},
+            {"Input variable", "Output variable", "Model", "Algorithm"},
+            {"Model learning", "Model testing", "Model deployment", "Model deletion"},
+            {"Model validation technique", "Training technique", "Testing technique", "None"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Cloud Computing Questions
+    private String getCloudComputingQuestion(int num) {
+        String[] questions = {
+            "What is cloud computing?",
+            "IaaS stands for?",
+            "PaaS stands for?",
+            "SaaS stands for?",
+            "Public cloud is?",
+            "Private cloud is?",
+            "What is virtualization?",
+            "AWS is a?",
+            "What is scalability?",
+            "Load balancing is?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getCloudComputingOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Internet-based computing", "Local computing", "No computing", "Manual computing"},
+            {"Infrastructure as a Service", "Internet as a Service", "Information as a Service", "None"},
+            {"Platform as a Service", "Program as a Service", "Product as a Service", "None"},
+            {"Software as a Service", "System as a Service", "Security as a Service", "None"},
+            {"Shared resources", "Private resources", "No resources", "Limited resources"},
+            {"Dedicated resources", "Shared resources", "No resources", "Public resources"},
+            {"Multiple OS on one hardware", "One OS only", "No OS", "Physical machines"},
+            {"Cloud service provider", "Operating system", "Programming language", "Database"},
+            {"Handle increased load", "Handle decreased load", "No load handling", "Fixed load"},
+            {"Distribute traffic", "Block traffic", "No traffic", "Single server"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // AI Questions
+    private String getAIQuestion(int num) {
+        String[] questions = {
+            "What is AI?",
+            "Machine learning is?",
+            "Deep learning uses?",
+            "What is NLP?",
+            "Expert system is?",
+            "What is computer vision?",
+            "Turing test checks?",
+            "What is a neural network?",
+            "Reinforcement learning uses?",
+            "What is an agent?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getAIOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Machine intelligence", "Human intelligence", "No intelligence", "Animal intelligence"},
+            {"Subset of AI", "Superset of AI", "Not related to AI", "None"},
+            {"Neural networks", "Decision trees", "Linear regression", "None"},
+            {"Natural Language Processing", "Network Language Processing", "None", "New Language Processing"},
+            {"AI with domain knowledge", "General AI", "No knowledge", "Random system"},
+            {"Image understanding", "Text understanding", "Audio understanding", "None"},
+            {"Machine intelligence", "Machine speed", "Machine memory", "Machine storage"},
+            {"Interconnected nodes", "Single node", "No nodes", "Linear structure"},
+            {"Rewards and penalties", "Only rewards", "Only penalties", "No feedback"},
+            {"Perceives and acts", "Only perceives", "Only acts", "Neither"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // IoT Questions
+    private String getIoTQuestion(int num) {
+        String[] questions = {
+            "What is IoT?",
+            "IoT devices are?",
+            "What is a sensor?",
+            "What is an actuator?",
+            "MQTT is?",
+            "What is edge computing?",
+            "Smart home uses?",
+            "What is M2M?",
+            "IoT gateway is?",
+            "What is fog computing?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getIoTOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Internet of Things", "Internet of Technology", "Internet of Thoughts", "None"},
+            {"Connected devices", "Disconnected devices", "No devices", "Single device"},
+            {"Detects physical changes", "Displays data", "Stores data", "Processes data"},
+            {"Performs actions", "Senses only", "Stores only", "Displays only"},
+            {"Messaging protocol", "Programming language", "Operating system", "Database"},
+            {"Processing near source", "Cloud processing", "No processing", "Central processing"},
+            {"IoT devices", "No devices", "Manual devices", "Mechanical devices"},
+            {"Machine to Machine", "Man to Machine", "Machine to Man", "None"},
+            {"Connects IoT to internet", "Stores data", "Displays data", "None"},
+            {"Distributed computing", "Centralized computing", "No computing", "Cloud only"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Big Data Questions
+    private String getBigDataQuestion(int num) {
+        String[] questions = {
+            "What is Big Data?",
+            "3 Vs of Big Data?",
+            "Hadoop is?",
+            "MapReduce is?",
+            "What is HDFS?",
+            "NoSQL databases are?",
+            "Data mining is?",
+            "What is data warehouse?",
+            "Spark is?",
+            "What is data lake?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getBigDataOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Large datasets", "Small datasets", "No data", "Medium data"},
+            {"Volume, Velocity, Variety", "Volume, Value, Variety", "Volume, Velocity, Value", "None"},
+            {"Big data framework", "Programming language", "Operating system", "Database"},
+            {"Parallel processing", "Sequential processing", "No processing", "Single processing"},
+            {"Hadoop Distributed File System", "Hard Disk File System", "None", "High Data File System"},
+            {"Non-relational databases", "Relational databases", "No databases", "File systems"},
+            {"Extract patterns", "Store data", "Delete data", "Display data"},
+            {"Centralized repository", "Distributed storage", "No storage", "Temporary storage"},
+            {"Fast processing engine", "Slow engine", "No engine", "Storage engine"},
+            {"Raw data storage", "Processed data only", "No data", "Structured only"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Compiler Questions
+    private String getCompilerQuestion(int num) {
+        String[] questions = {
+            "What is a compiler?",
+            "Lexical analysis produces?",
+            "Parser checks?",
+            "What is a token?",
+            "Semantic analysis checks?",
+            "Code optimization improves?",
+            "What is intermediate code?",
+            "Symbol table stores?",
+            "What is code generation?",
+            "Cross compiler generates?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getCompilerOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Translates high-level to machine code", "Executes code", "Debugs code", "None"},
+            {"Tokens", "Parse tree", "Assembly code", "Machine code"},
+            {"Syntax", "Semantics", "Optimization", "Execution"},
+            {"Lexical unit", "Syntax unit", "Semantic unit", "None"},
+            {"Meaning", "Syntax", "Lexical", "Optimization"},
+            {"Performance", "Syntax", "Semantics", "Lexical"},
+            {"Between source and target", "Source code", "Machine code", "Assembly code"},
+            {"Identifiers info", "Tokens", "Parse tree", "Machine code"},
+            {"Target code production", "Parsing", "Lexical analysis", "Optimization"},
+            {"Code for different platform", "Same platform code", "No code", "Source code"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Theory of Computation Questions
+    private String getTOCQuestion(int num) {
+        String[] questions = {
+            "What is an automaton?",
+            "DFA stands for?",
+            "NFA stands for?",
+            "Regular expression describes?",
+            "Context-free grammar generates?",
+            "Turing machine is?",
+            "What is decidability?",
+            "P vs NP is?",
+            "What is a language?",
+            "Chomsky hierarchy has?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getTOCOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Abstract machine", "Physical machine", "No machine", "Real machine"},
+            {"Deterministic Finite Automaton", "Direct Finite Automaton", "None", "Distributed Finite Automaton"},
+            {"Non-deterministic Finite Automaton", "New Finite Automaton", "None", "Normal Finite Automaton"},
+            {"Regular language", "Context-free language", "All languages", "No language"},
+            {"Context-free language", "Regular language", "All languages", "No language"},
+            {"Most powerful model", "Least powerful", "Medium powerful", "No power"},
+            {"Problem solvability", "Problem complexity", "Problem size", "None"},
+            {"Complexity classes", "Automata types", "Grammar types", "None"},
+            {"Set of strings", "Set of numbers", "Set of symbols", "None"},
+            {"4 types of grammars", "2 types", "3 types", "5 types"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Computer Graphics Questions
+    private String getComputerGraphicsQuestion(int num) {
+        String[] questions = {
+            "What is rasterization?",
+            "Vector graphics uses?",
+            "What is a pixel?",
+            "3D transformation uses?",
+            "What is rendering?",
+            "Ray tracing is?",
+            "What is anti-aliasing?",
+            "Bezier curve is?",
+            "What is clipping?",
+            "Frame buffer stores?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getComputerGraphicsOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Convert vector to raster", "Convert raster to vector", "No conversion", "Image compression"},
+            {"Mathematical equations", "Pixels", "Both", "Neither"},
+            {"Picture element", "Picture quality", "Picture size", "None"},
+            {"Matrices", "Vectors", "Scalars", "None"},
+            {"Generate image", "Store image", "Display image", "Delete image"},
+            {"Realistic rendering", "Fast rendering", "No rendering", "Simple rendering"},
+            {"Smooth edges", "Sharp edges", "No edges", "Thick edges"},
+            {"Parametric curve", "Straight line", "Circle", "None"},
+            {"Remove outside viewport", "Add to viewport", "No change", "Zoom viewport"},
+            {"Pixel values", "Vector data", "Text data", "Audio data"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Cryptography Questions
+    private String getCryptographyQuestion(int num) {
+        String[] questions = {
+            "What is cryptography?",
+            "Symmetric encryption uses?",
+            "Asymmetric encryption uses?",
+            "What is a hash function?",
+            "Digital signature provides?",
+            "RSA is?",
+            "AES is?",
+            "What is a cipher?",
+            "Public key is used for?",
+            "Private key is used for?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getCryptographyOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Secure communication", "Fast communication", "No communication", "Open communication"},
+            {"Same key", "Different keys", "No key", "Multiple keys"},
+            {"Key pair", "Single key", "No key", "Three keys"},
+            {"One-way function", "Two-way function", "No function", "Reversible function"},
+            {"Authentication", "Encryption", "Compression", "None"},
+            {"Asymmetric algorithm", "Symmetric algorithm", "Hash algorithm", "None"},
+            {"Symmetric algorithm", "Asymmetric algorithm", "Hash algorithm", "None"},
+            {"Encryption algorithm", "Compression algorithm", "Sorting algorithm", "None"},
+            {"Encryption", "Decryption", "Both", "Neither"},
+            {"Decryption", "Encryption", "Both", "Neither"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Physics Questions
+    private String getPhysicsQuestion(int num) {
+        String[] questions = {
+            "Newton's first law is?",
+            "What is force?",
+            "Energy is measured in?",
+            "What is momentum?",
+            "Ohm's law relates?",
+            "What is frequency?",
+            "Light travels at?",
+            "What is gravity?",
+            "Kinetic energy depends on?",
+            "What is power?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getPhysicsOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Law of inertia", "Law of acceleration", "Law of action-reaction", "None"},
+            {"Mass × acceleration", "Mass × velocity", "Mass × distance", "None"},
+            {"Joules", "Watts", "Newtons", "Meters"},
+            {"Mass × velocity", "Mass × acceleration", "Force × distance", "None"},
+            {"V = IR", "V = I/R", "V = R/I", "None"},
+            {"Cycles per second", "Seconds per cycle", "Distance per second", "None"},
+            {"3×10^8 m/s", "3×10^6 m/s", "3×10^10 m/s", "None"},
+            {"Attractive force", "Repulsive force", "No force", "Magnetic force"},
+            {"Mass and velocity", "Mass only", "Velocity only", "Neither"},
+            {"Work per time", "Force per time", "Energy per distance", "None"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // C Programming Questions
+    private String getCProgrammingQuestion(int num) {
+        String[] questions = {
+            "What is a pointer?",
+            "Array index starts from?",
+            "What is a structure?",
+            "malloc() is used for?",
+            "What is a function?",
+            "printf() is used for?",
+            "What is a loop?",
+            "if-else is?",
+            "What is recursion?",
+            "Header file contains?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getCProgrammingOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Stores address", "Stores value", "Stores name", "None"},
+            {"0", "1", "-1", "2"},
+            {"User-defined data type", "Built-in type", "No type", "Pointer type"},
+            {"Dynamic memory allocation", "Static allocation", "No allocation", "Stack allocation"},
+            {"Reusable code block", "Variable", "Constant", "None"},
+            {"Output", "Input", "Both", "Neither"},
+            {"Repeated execution", "Single execution", "No execution", "Conditional execution"},
+            {"Conditional statement", "Loop statement", "Function", "None"},
+            {"Function calling itself", "Function calling another", "No calling", "None"},
+            {"Function declarations", "Function definitions", "Main function", "Variables only"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Discrete Mathematics Questions
+    private String getDiscreteMathQuestion(int num) {
+        String[] questions = {
+            "What is a set?",
+            "Graph has?",
+            "What is a relation?",
+            "Function is?",
+            "What is combinatorics?",
+            "Permutation is?",
+            "Combination is?",
+            "What is a tree?",
+            "Boolean algebra uses?",
+            "What is logic?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getDiscreteMathOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Collection of elements", "Single element", "No elements", "Ordered list"},
+            {"Vertices and edges", "Only vertices", "Only edges", "Neither"},
+            {"Set of ordered pairs", "Single pair", "No pairs", "Unordered pairs"},
+            {"Special relation", "Any relation", "No relation", "Multiple relations"},
+            {"Counting", "Measuring", "Weighing", "None"},
+            {"Order matters", "Order doesn't matter", "No order", "Random order"},
+            {"Order doesn't matter", "Order matters", "No selection", "Random selection"},
+            {"Connected acyclic graph", "Cyclic graph", "Disconnected graph", "None"},
+            {"0 and 1", "0, 1, 2", "All numbers", "No numbers"},
+            {"Reasoning", "Counting", "Measuring", "None"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Computer Organization Questions
+    private String getComputerOrganizationQuestion(int num) {
+        String[] questions = {
+            "CPU stands for?",
+            "ALU performs?",
+            "What is a register?",
+            "Cache memory is?",
+            "What is pipelining?",
+            "Von Neumann architecture has?",
+            "What is instruction cycle?",
+            "Bus is used for?",
+            "What is addressing mode?",
+            "RISC stands for?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getComputerOrganizationOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Central Processing Unit", "Central Program Unit", "Computer Processing Unit", "None"},
+            {"Arithmetic and logic operations", "Only arithmetic", "Only logic", "Neither"},
+            {"Fast CPU memory", "Slow memory", "Disk storage", "None"},
+            {"Fast memory", "Slow memory", "Permanent storage", "Input device"},
+            {"Parallel execution", "Sequential execution", "No execution", "Random execution"},
+            {"Shared memory", "Separate memory", "No memory", "Cache only"},
+            {"Fetch-decode-execute", "Fetch only", "Execute only", "Decode only"},
+            {"Data transfer", "Data storage", "Data processing", "None"},
+            {"Access operand method", "Execute method", "Fetch method", "None"},
+            {"Reduced Instruction Set Computer", "Rich Instruction Set Computer", "None", "Random Instruction Set Computer"}
+        };
+        return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Engineering Graphics Questions
+    private String getEngineeringGraphicsQuestion(int num) {
+        String[] questions = {
+            "Orthographic projection shows?",
+            "Isometric view is?",
+            "What is a section view?",
+            "Dimensioning is?",
+            "What is scaling?",
+            "First angle projection is?",
+            "Third angle projection is?",
+            "What is hatching?",
+            "Auxiliary view shows?",
+            "What is a detail drawing?"
+        };
+        return questions[(num - 1) % questions.length];
+    }
+
+    private String getEngineeringGraphicsOption(int qNum, int optNum) {
+        String[][] options = {
+            {"Multiple 2D views", "Single 3D view", "Perspective view", "None"},
+            {"3D representation", "2D representation", "Perspective view", "None"},
+            {"Internal features", "External features", "Both", "Neither"},
+            {"Size specification", "Shape specification", "Material specification", "None"},
+            {"Size adjustment", "Shape adjustment", "Color adjustment", "None"},
+            {"Object below plane", "Object above plane", "No plane", "Side plane"},
+            {"Object above plane", "Object below plane", "No plane", "Side plane"},
+            {"Section indication", "Dimension indication", "Scale indication", "None"},
+            {"Inclined surfaces", "Horizontal surfaces", "Vertical surfaces", "None"},
+            {"Single part details", "Assembly details", "Material details", "None"}
         };
         return options[(qNum - 1) % options.length][optNum - 1];
     }
