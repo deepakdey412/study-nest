@@ -25,4 +25,12 @@ public class CertificateController {
         CertificateService.CertificateData certificate = certificateService.generateCertificate(email);
         return ResponseEntity.ok(certificate);
     }
+
+    @GetMapping("/eligibility")
+    @PreAuthorize("hasRole('STUDENT')")
+    public ResponseEntity<CertificateService.EligibilityData> checkEligibility(Authentication authentication) {
+        String email = authentication.getName();
+        CertificateService.EligibilityData eligibility = certificateService.checkEligibility(email);
+        return ResponseEntity.ok(eligibility);
+    }
 }

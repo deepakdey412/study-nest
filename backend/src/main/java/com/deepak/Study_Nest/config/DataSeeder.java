@@ -46,13 +46,17 @@ public class DataSeeder implements CommandLineRunner {
         // Seed 10 questions for each module
         for (Module module : modules) {
             for (int i = 1; i <= 10; i++) {
+                // Randomly select which option is correct (1-4)
+                int correctOptionNumber = (i % 4) + 1; // Cycles through 1,2,3,4,1,2,3,4,1,2
+                String correctAnswer = "option" + correctOptionNumber;
+                
                 Question question = Question.builder()
                         .questionText(getQuestionText(module, i))
                         .option1(getOption(module, i, 1))
                         .option2(getOption(module, i, 2))
                         .option3(getOption(module, i, 3))
                         .option4(getOption(module, i, 4))
-                        .correctAnswer("option1") // First option is correct
+                        .correctAnswer(correctAnswer) // Random correct option
                         .module(module)
                         .build();
                 

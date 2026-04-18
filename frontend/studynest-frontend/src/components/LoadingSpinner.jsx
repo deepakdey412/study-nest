@@ -1,5 +1,5 @@
-import { Spinner } from 'react-bootstrap';
 
+import { Spinner } from 'react-bootstrap';
 const LoadingSpinner = ({ message = 'Loading...' }) => {
   return (
     <div className="d-flex flex-column justify-content-center align-items-center" style={{ minHeight: '400px' }}>
