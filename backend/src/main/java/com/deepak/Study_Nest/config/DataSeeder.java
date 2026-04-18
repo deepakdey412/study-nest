@@ -1,15 +1,17 @@
 package com.deepak.Study_Nest.config;
 
-import org.springframework.boot.CommandLineRunner;
-import org.springframework.stereotype.Component;
-
 import com.deepak.Study_Nest.dao.ModuleRepository;
 import com.deepak.Study_Nest.dao.QuestionRepository;
 import com.deepak.Study_Nest.entity.Module;
 import com.deepak.Study_Nest.entity.Question;
-
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.boot.CommandLineRunner;
+import org.springframework.stereotype.Component;
+
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 @Component
 @RequiredArgsConstructor
@@ -46,17 +48,39 @@ public class DataSeeder implements CommandLineRunner {
         // Seed 10 questions for each module
         for (Module module : modules) {
             for (int i = 1; i <= 10; i++) {
-                // Randomly select which option is correct (1-4)
-                int correctOptionNumber = (i % 4) + 1; // Cycles through 1,2,3,4,1,2,3,4,1,2
-                String correctAnswer = "option" + correctOptionNumber;
+                // Get the correct answer content and 3 wrong answers
+                String correctAnswerText = getOption(module, i, 1); // Correct answer
+                String wrongAnswer1 = getOption(module, i, 2);
+                String wrongAnswer2 = getOption(module, i, 3);
+                String wrongAnswer3 = getOption(module, i, 4);
+                
+                // Create a list of all options with their content
+                List<OptionPair> options = new ArrayList<>();
+                options.add(new OptionPair("option1", correctAnswerText, true));
+                options.add(new OptionPair("option2", wrongAnswer1, false));
+                options.add(new OptionPair("option3", wrongAnswer2, false));
+                options.add(new OptionPair("option4", wrongAnswer3, false));
+                
+                // Shuffle the options to randomize position of correct answer
+                Collections.shuffle(options);
+                
+                // After shuffle, update field names to match new positions
+                // and find which position has the correct answer
+                String correctAnswerField = "";
+                for (int j = 0; j < options.size(); j++) {
+                    options.get(j).fieldName = "option" + (j + 1);
+                    if (options.get(j).isCorrect) {
+                        correctAnswerField = "option" + (j + 1);
+                    }
+                }
                 
                 Question question = Question.builder()
                         .questionText(getQuestionText(module, i))
-                        .option1(getOption(module, i, 1))
-                        .option2(getOption(module, i, 2))
-                        .option3(getOption(module, i, 3))
-                        .option4(getOption(module, i, 4))
-                        .correctAnswer(correctAnswer) // Random correct option
+                        .option1(options.get(0).content)
+                        .option2(options.get(1).content)
+                        .option3(options.get(2).content)
+                        .option4(options.get(3).content)
+                        .correctAnswer(correctAnswerField)
                         .module(module)
                         .build();
                 
@@ -1015,5 +1039,18 @@ public class DataSeeder implements CommandLineRunner {
             {"Single part details", "Assembly details", "Material details", "None"}
         };
         return options[(qNum - 1) % options.length][optNum - 1];
+    }
+
+    // Helper class to store option data during shuffling
+    private static class OptionPair {
+        String fieldName;
+        String content;
+        boolean isCorrect;
+
+        OptionPair(String fieldName, String content, boolean isCorrect) {
+            this.fieldName = fieldName;
+            this.content = content;
+            this.isCorrect = isCorrect;
+        }
     }
 }
