@@ -128,7 +128,7 @@ const ProfilePage = ({ user, onLogout }) => {
           {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
           {success && <Alert variant="success" dismissible onClose={() => setSuccess('')}>{success}</Alert>}
 
-          <Row className="g-4">
+          <Row className="justify-content-center">
             <Col lg={8}>
               <Card className="border-0 shadow-sm">
                 <Card.Body className="p-4">
@@ -278,51 +278,6 @@ const ProfilePage = ({ user, onLogout }) => {
                       </div>
                     )}
                   </Form>
-                </Card.Body>
-              </Card>
-            </Col>
-
-            <Col lg={4}>
-              <Card className="border-0 shadow-sm mb-4">
-                <Card.Body className="p-4">
-                  <h5 className="fw-bold mb-4">Account Statistics</h5>
-                  <div className="mb-3">
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="text-muted">Tests Taken</span>
-                      <strong>{profile?.testsTaken || 0}</strong>
-                    </div>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="text-muted">Tests Passed</span>
-                      <strong>{profile?.testsPassed || 0}</strong>
-                    </div>
-                    <div className="d-flex justify-content-between mb-2">
-                      <span className="text-muted">Average Score</span>
-                      <strong>
-                        {profile?.averageScore ? `${profile.averageScore.toFixed(1)}%` : 'N/A'}
-                      </strong>
-                    </div>
-                    <div className="d-flex justify-content-between">
-                      <span className="text-muted">Certificate Status</span>
-                      <strong className={profile?.certificateEligible ? 'text-success' : 'text-muted'}>
-                        {profile?.certificateEligible ? 'Eligible' : 'Not Eligible'}
-                      </strong>
-                    </div>
-                  </div>
-                </Card.Body>
-              </Card>
-
-              <Card className="border-0 shadow-sm">
-                <Card.Body className="p-4">
-                  <h5 className="fw-bold mb-3">Account Security</h5>
-                  <p className="text-muted small mb-3">
-                    Keep your account secure by using a strong password
-                  </p>
-                  <Button variant="outline-secondary" className="w-100" disabled>
-                    Change Password
-                  </Button>
-                  <p className="text-muted small mt-2 mb-0 text-center">
-                    Coming soon
-                  </p>
                 </Card.Body>
               </Card>
             </Col>
