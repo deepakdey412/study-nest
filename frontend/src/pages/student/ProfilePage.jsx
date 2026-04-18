@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, Form, Button, Alert, Row, Col } from 'react-bootstrap';
 import { FaUser, FaEnvelope, FaPhone, FaIdCard, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import studentService from '../../services/studentService';
 import './StudentPages.css';
@@ -116,10 +116,10 @@ const ProfilePage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="STUDENT" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="p-4">
+      <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
           <div className="mb-4">
             <h2 className="fw-bold">My Profile</h2>
             <p className="text-muted">View and manage your account information</p>

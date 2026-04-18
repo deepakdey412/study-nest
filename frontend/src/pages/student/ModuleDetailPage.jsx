@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Container, Row, Col, Card, Button, Badge } from 'react-bootstrap';
 import { useParams, useNavigate, Link } from 'react-router-dom';
 import { FaBook, FaClock, FaQuestionCircle, FaArrowLeft, FaPlay } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import moduleService from '../../services/moduleService';
 import './StudentPages.css';
@@ -38,10 +38,10 @@ const ModuleDetailPage = ({ user, onLogout }) => {
   if (!module) {
     return (
       <div className="d-flex">
-        <Sidebar role="STUDENT" />
-        <div className="flex-grow-1">
-          <Navbar user={user} onLogout={onLogout} />
-          <Container className="py-5 text-center">
+        <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+        <TopBar user={user} />
+        <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+          <Container className="py-5 text-center" style={{ maxWidth: '1400px' }}>
             <h3>Module not found</h3>
             <Button as={Link} to="/student/modules" variant="primary" className="mt-3">
               Back to Modules
@@ -54,10 +54,10 @@ const ModuleDetailPage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="STUDENT" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="p-4">
+      <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
           <Button 
             as={Link} 
             to="/student/modules" 

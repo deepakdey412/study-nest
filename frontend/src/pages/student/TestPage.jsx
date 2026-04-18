@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Container, Card, Button, Form, Alert, ProgressBar, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaCheckCircle } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import questionService from '../../services/questionService';
 import testService from '../../services/testService';
@@ -146,10 +146,10 @@ const TestPage = ({ user, onLogout }) => {
   if (eligibilityError) {
     return (
       <div className="d-flex">
-        <Sidebar role="STUDENT" />
-        <div className="flex-grow-1">
-          <Navbar user={user} onLogout={onLogout} />
-          <Container className="py-5">
+        <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+        <TopBar user={user} />
+        <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+          <Container className="py-5" style={{ maxWidth: '1400px' }}>
             <Card className="border-0 shadow-sm">
               <Card.Body className="p-5 text-center">
                 <div className="mb-4">
@@ -178,10 +178,10 @@ const TestPage = ({ user, onLogout }) => {
   if (error && questions.length === 0) {
     return (
       <div className="d-flex">
-        <Sidebar role="STUDENT" />
-        <div className="flex-grow-1">
-          <Navbar user={user} onLogout={onLogout} />
-          <Container className="py-5 text-center">
+        <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+        <TopBar user={user} />
+        <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+          <Container className="py-5 text-center" style={{ maxWidth: '1400px' }}>
             <Alert variant="danger">{error}</Alert>
             <Button onClick={() => navigate('/student/modules')} variant="primary">
               Back to Modules
@@ -198,10 +198,10 @@ const TestPage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="STUDENT" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="py-4">
+      <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="py-4" style={{ maxWidth: '1400px' }}>
           {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
 
           <Row className="g-4 test-page-row">

@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Container, Card, Table, Badge, Form, Row, Col, Button } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
 import { FaTrophy, FaCheckCircle, FaTimesCircle, FaFilter } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import testService from '../../services/testService';
 import './StudentPages.css';
@@ -78,10 +78,10 @@ const ResultsPage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="STUDENT" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="p-4">
+      <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
           <div className="mb-4">
             <h2 className="fw-bold">Test Results</h2>
             <p className="text-muted">Track your performance and progress</p>

@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Row, Col, Nav, Card, Badge } from 'react-bootstrap';
 import { FaBook, FaQuestionCircle } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import moduleService from '../../services/moduleService';
 import '../student/StudentPages.css';
@@ -53,10 +53,10 @@ const TutorModulesPage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="TUTOR" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="p-4">
+      <Sidebar role="TUTOR" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
           <div className="mb-4">
             <h2 className="fw-bold">Module Management</h2>
             <p className="text-muted">View and manage all course modules</p>

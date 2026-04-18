@@ -1,8 +1,8 @@
 import { useState, useEffect } from 'react';
 import { Container, Card, Button, Alert, Row, Col, Badge } from 'react-bootstrap';
 import { FaCertificate, FaDownload, FaCheckCircle, FaTimesCircle, FaTrophy } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import certificateService from '../../services/certificateService';
 import './StudentPages.css';
@@ -83,10 +83,10 @@ const CertificatePage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="STUDENT" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
-        <Container fluid className="p-4">
+      <Sidebar role="STUDENT" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
           <div className="mb-4">
             <h2 className="fw-bold">Certificate</h2>
             <p className="text-muted">Earn your certificate of completion</p>

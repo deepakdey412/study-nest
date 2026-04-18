@@ -1,71 +1,65 @@
-import { Navbar as BSNavbar, Container, Nav, Button } from 'react-bootstrap';
-import { Link, useNavigate } from 'react-router-dom';
-import { FaGraduationCap, FaUser, FaSignOutAlt } from 'react-icons/fa';
+import { useNavigate } from 'react-router-dom';
+import { User } from 'lucide-react';
 
 const Navbar = ({ user, onLogout }) => {
   const navigate = useNavigate();
 
-  const handleLogout = () => {
-    onLogout();
-    navigate('/');
+  const styles = {
+    navbar: {
+      backgroundColor: '#fff',
+      boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
+      padding: '1rem 2rem',
+      position: 'sticky',
+      top: 0,
+      zIndex: 100,
+      marginLeft: '260px',
+    },
+    container: {
+      maxWidth: '100%',
+      margin: '0 auto',
+      display: 'flex',
+      justifyContent: 'flex-end',
+      alignItems: 'center',
+    },
+    userInfo: {
+      display: 'flex',
+      alignItems: 'center',
+      gap: '0.75rem',
+      padding: '0.5rem 1rem',
+      backgroundColor: '#F0F9FF',
+      borderRadius: '9999px',
+      border: '1px solid #BAE6FD',
+    },
+    userIcon: {
+      width: '32px',
+      height: '32px',
+      borderRadius: '50%',
+      backgroundColor: '#0EA5E9',
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      color: '#fff',
+    },
+    userName: {
+      color: '#1E293B',
+      fontWeight: 600,
+      fontSize: '0.95rem',
+    },
   };
 
   return (
-    <BSNavbar bg="primary" variant="dark" expand="lg" className="shadow-sm">
-      <Container>
-        <BSNavbar.Brand as={Link} to={user ? (user.role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard') : '/'}>
-          <FaGraduationCap className="me-2" size={24} />
-          <strong>StudyNest</strong>
-        </BSNavbar.Brand>
-        <BSNavbar.Toggle aria-controls="basic-navbar-nav" />
-        <BSNavbar.Collapse id="basic-navbar-nav">
-          <Nav className="ms-auto align-items-center">
-            {user ? (
-              <>
-                <Nav.Link as={Link} to={user.role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard'} className="text-white">
-                  Dashboard
-                </Nav.Link>
-                {user.role === 'STUDENT' && (
-                  <>
-                    <Nav.Link as={Link} to="/student/modules" className="text-white">
-                      Modules
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/student/results" className="text-white">
-                      Results
-                    </Nav.Link>
-                    <Nav.Link as={Link} to="/student/certificate" className="text-white">
-                      Certificate
-                    </Nav.Link>
-                  </>
-                )}
-                {user.role === 'TUTOR' && (
-                  <Nav.Link as={Link} to="/tutor/modules" className="text-white">
-                    Modules
-                  </Nav.Link>
-                )}
-                <Nav.Link as={Link} to={user.role === 'STUDENT' ? '/student/profile' : '#'} className="text-white">
-                  <FaUser className="me-1" />
-                  {user.name}
-                </Nav.Link>
-                <Button variant="outline-light" size="sm" onClick={handleLogout} className="ms-2">
-                  <FaSignOutAlt className="me-1" />
-                  Logout
-                </Button>
-              </>
-            ) : (
-              <>
-                <Nav.Link as={Link} to="/login" className="text-white">
-                  Login
-                </Nav.Link>
-                <Button as={Link} to="/register/student" variant="outline-light" size="sm" className="ms-2">
-                  Register
-                </Button>
-              </>
-            )}
-          </Nav>
-        </BSNavbar.Collapse>
-      </Container>
-    </BSNavbar>
+    <nav style={styles.navbar}>
+      <div style={styles.container}>
+        {user && (
+          <div style={styles.userInfo}>
+            <div style={styles.userIcon}>
+              <User size={18} />
+            </div>
+            <span style={styles.userName}>{user.name}</span>
+          </div>
+        )}
+      </div>
+    </nav>
   );
 };
 

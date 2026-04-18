@@ -2,8 +2,8 @@ import { useState, useEffect } from 'react';
 import { Container, Card, Badge, Button, Accordion } from 'react-bootstrap';
 import { useParams, Link } from 'react-router-dom';
 import { FaArrowLeft, FaCheckCircle, FaBook } from 'react-icons/fa';
-import Navbar from '../../components/Navbar';
 import Sidebar from '../../components/Sidebar';
+import TopBar from '../../components/TopBar';
 import LoadingSpinner from '../../components/LoadingSpinner';
 import questionService from '../../services/questionService';
 import moduleService from '../../services/moduleService';
@@ -42,9 +42,10 @@ const ModuleQuestionsPage = ({ user, onLogout }) => {
 
   return (
     <div className="d-flex">
-      <Sidebar role="TUTOR" />
-      <div className="flex-grow-1">
-        <Navbar user={user} onLogout={onLogout} />
+      <Sidebar role="TUTOR" onLogout={onLogout} user={user} />
+      <TopBar user={user} />
+      <div className="flex-grow-1" style={{ marginLeft: '260px', paddingTop: '60px' }}>
+        <Container fluid className="p-4" style={{ maxWidth: '1400px' }}>
         <Container fluid className="p-4">
           <Button 
             as={Link} 
