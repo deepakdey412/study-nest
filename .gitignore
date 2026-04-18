@@ -1,0 +1,96 @@
+# ===================================
+# StudyNest Project - .gitignore
+# ===================================
+
+# ===================================
+# Backend (Java/Spring Boot/Maven)
+# ===================================
+
+# Maven
+backend/target/
+backend/.mvn/
+backend/mvnw
+backend/mvnw.cmd
+
+# IDE
+backend/.idea/
+backend/*.iml
+backend/.classpath
+backend/.project
+backend/.settings/
+
+# Logs
+backend/*.log
+backend/logs/
+
+# H2 Database files
+backend/*.db
+backend/*.mv.db
+backend/*.trace.db
+
+# ===================================
+# Frontend (React/Vite/Node)
+# ===================================
+
+# Dependencies
+frontend/node_modules/
+
+# Build output
+frontend/dist/
+frontend/build/
+
+# Environment variables
+frontend/.env
+frontend/.env.local
+frontend/.env.production
+
+# IDE
+frontend/.vscode/
+frontend/.idea/
+
+# Logs
+frontend/npm-debug.log*
+frontend/yarn-debug.log*
+frontend/yarn-error.log*
+frontend/pnpm-debug.log*
+
+# OS files
+frontend/.DS_Store
+frontend/Thumbs.db
+
+# ===================================
+# General
+# ===================================
+
+# OS files
+.DS_Store
+Thumbs.db
+*.swp
+*.swo
+*~
+
+# IDE
+.vscode/
+.idea/
+*.iml
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp
+*.bak
+*.cache
+
+# ===================================
+# Git
+# ===================================
+.git/
+
+# ===================================
+# Documentation (Optional - Keep if needed)
+# ===================================
+# Uncomment to ignore documentation files
+# *.md
+# !README.md
