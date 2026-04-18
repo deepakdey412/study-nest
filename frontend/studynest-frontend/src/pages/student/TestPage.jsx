@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Container, Card, Button, Form, Alert, ProgressBar } from 'react-bootstrap';
+import { Container, Card, Button, Form, Alert, ProgressBar, Row, Col } from 'react-bootstrap';
 import { useParams, useNavigate } from 'react-router-dom';
 import { FaClock, FaCheckCircle } from 'react-icons/fa';
 import Navbar from '../../components/Navbar';
@@ -20,10 +20,35 @@ const TestPage = ({ user, onLogout }) => {
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState('');
   const [eligibilityError, setEligibilityError] = useState('');
+  const [timeLeft, setTimeLeft] = useState(15 * 60); // 15 minutes in seconds
 
   useEffect(() => {
     fetchModuleAndQuestions();
   }, [moduleId]);
+
+  // Timer effect
+  useEffect(() => {
+    if (loading || eligibilityError || questions.length === 0) return;
+
+    const timer = setInterval(() => {
+      setTimeLeft((prev) => {
+        if (prev <= 1) {
+          clearInterval(timer);
+          handleSubmit();
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+
+    return () => clearInterval(timer);
+  }, [loading, eligibilityError, questions]);
+
+  const formatTime = (seconds) => {
+    const mins = Math.floor(seconds / 60);
+    const secs = seconds % 60;
+    return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+  };
 
   const fetchModuleAndQuestions = async () => {
     try {
@@ -176,123 +201,166 @@ const TestPage = ({ user, onLogout }) => {
       <Sidebar role="STUDENT" />
       <div className="flex-grow-1">
         <Navbar user={user} onLogout={onLogout} />
-        <Container className="py-4">
+        <Container fluid className="py-4">
           {error && <Alert variant="danger" dismissible onClose={() => setError('')}>{error}</Alert>}
 
-          {/* Progress Header */}
-          <Card className="border-0 shadow-sm mb-4">
-            <Card.Body className="p-4">
-              <div className="d-flex justify-content-between align-items-center mb-3">
-                <div>
-                  <h5 className="fw-bold mb-1">Question {currentQuestion + 1} of {questions.length}</h5>
-                  <p className="text-muted mb-0">
-                    <FaCheckCircle className="text-success me-1" />
-                    {answeredCount} answered
-                  </p>
-                </div>
-                <div className="text-end">
-                  <FaClock className="text-warning me-2" />
-                  <span className="text-muted">15:00</span>
-                </div>
-              </div>
-              <ProgressBar now={progress} variant="primary" style={{ height: '8px' }} />
-            </Card.Body>
-          </Card>
-
-          {/* Question Card */}
-          <Card className="border-0 shadow-sm mb-4">
-            <Card.Body className="p-4">
-              <h4 className="fw-bold mb-4">{question.questionText}</h4>
-
-              <div className="d-grid gap-3">
-                {['option1', 'option2', 'option3', 'option4'].map((option, index) => (
-                  <div
-                    key={option}
-                    className={`option-card p-3 border rounded ${
-                      answers[question.id] === option ? 'selected' : ''
-                    }`}
-                    onClick={() => handleAnswerChange(question.id, option)}
-                    style={{ cursor: 'pointer' }}
-                  >
-                    <Form.Check
-                      type="radio"
-                      id={`${question.id}-${option}`}
-                      name={`question-${question.id}`}
-                      checked={answers[question.id] === option}
-                      onChange={() => {}}
-                      label={
-                        <span className="ms-2 d-flex align-items-center">
-                          <strong className="me-2">{String.fromCharCode(65 + index)}.</strong>
-                          <span>{question[option]}</span>
+          <Row className="g-4 test-page-row">
+            {/* Main Test Area - Left Side */}
+            <Col lg={9}>
+              {/* Module Header */}
+              <Card className="border-0 shadow-sm mb-4">
+                <Card.Body className="p-4 bg-primary text-white">
+                  <div className="d-flex justify-content-between align-items-center">
+                    <div>
+                      <h3 className="fw-bold mb-1">{module?.name}</h3>
+                      <p className="mb-0 opacity-75">
+                        <span className="badge bg-white text-primary me-2">Semester {module?.semester}</span>
+                        <span>10 Questions • 15 Minutes</span>
+                      </p>
+                    </div>
+                    <div className="text-end">
+                      <div className="d-flex align-items-center gap-2">
+                        <FaClock size={20} className={timeLeft < 60 ? 'text-danger' : ''} />
+                        <span className={`fs-5 fw-bold ${timeLeft < 60 ? 'text-danger' : ''}`}>
+                          {formatTime(timeLeft)}
                         </span>
-                      }
-                      style={{ pointerEvents: 'none' }}
-                    />
+                      </div>
+                      {timeLeft < 60 && (
+                        <small className="text-white opacity-75">Time running out!</small>
+                      )}
+                    </div>
                   </div>
-                ))}
-              </div>
-            </Card.Body>
-          </Card>
+                </Card.Body>
+              </Card>
 
-          {/* Navigation Buttons */}
-          <div className="d-flex justify-content-between">
-            <Button
-              variant="outline-secondary"
-              onClick={handlePrevious}
-              disabled={currentQuestion === 0}
-              size="lg"
-            >
-              ← Previous
-            </Button>
+              {/* Progress Bar */}
+              <Card className="border-0 shadow-sm mb-4">
+                <Card.Body className="p-3">
+                  <div className="d-flex justify-content-between align-items-center mb-2">
+                    <span className="fw-semibold">Question {currentQuestion + 1} of {questions.length}</span>
+                    <span className="text-muted">
+                      <FaCheckCircle className="text-success me-1" />
+                      {answeredCount} answered
+                    </span>
+                  </div>
+                  <ProgressBar 
+                    now={progress} 
+                    variant="success" 
+                    style={{ height: '10px' }}
+                    className="rounded"
+                  />
+                </Card.Body>
+              </Card>
 
-            <div>
-              {currentQuestion === questions.length - 1 ? (
+              {/* Question Card */}
+              <Card className="border-0 shadow-sm mb-4">
+                <Card.Body className="p-4">
+                  <h4 className="fw-bold mb-4 text-dark">{question.questionText}</h4>
+
+                  <div className="d-grid gap-3">
+                    {['option1', 'option2', 'option3', 'option4'].map((option, index) => {
+                      const isSelected = answers[question.id] === option;
+                      return (
+                        <div
+                          key={option}
+                          className={`test-option p-4 rounded-3 ${isSelected ? 'selected' : ''}`}
+                          onClick={() => handleAnswerChange(question.id, option)}
+                        >
+                          <div className="d-flex align-items-center">
+                            <div className={`option-badge me-3 ${isSelected ? 'selected' : ''}`}>
+                              {String.fromCharCode(65 + index)}
+                            </div>
+                            <span className="option-text">{question[option]}</span>
+                          </div>
+                        </div>
+                      );
+                    })}
+                  </div>
+                </Card.Body>
+              </Card>
+
+              {/* Navigation Buttons */}
+              <div className="d-flex justify-content-between">
                 <Button
-                  variant="success"
-                  onClick={handleSubmit}
-                  disabled={submitting}
+                  variant="outline-secondary"
+                  onClick={handlePrevious}
+                  disabled={currentQuestion === 0}
                   size="lg"
-                  className="px-5"
+                  className="px-4"
                 >
-                  {submitting ? 'Submitting...' : 'Submit Test'}
+                  ← Previous
                 </Button>
-              ) : (
-                <Button
-                  variant="primary"
-                  onClick={handleNext}
-                  size="lg"
-                >
-                  Next →
-                </Button>
-              )}
-            </div>
-          </div>
 
-          {/* Question Navigator */}
-          <Card className="border-0 shadow-sm mt-4">
-            <Card.Body className="p-4">
-              <h6 className="fw-bold mb-3">Question Navigator</h6>
-              <div className="d-flex flex-wrap gap-2">
-                {questions.map((q, index) => (
-                  <Button
-                    key={q.id}
-                    variant={
-                      index === currentQuestion
-                        ? 'primary'
-                        : answers[q.id]
-                        ? 'success'
-                        : 'outline-secondary'
-                    }
-                    size="sm"
-                    onClick={() => setCurrentQuestion(index)}
-                    style={{ width: '45px', height: '45px' }}
-                  >
-                    {index + 1}
-                  </Button>
-                ))}
+                <div>
+                  {currentQuestion === questions.length - 1 ? (
+                    <Button
+                      variant="success"
+                      onClick={handleSubmit}
+                      disabled={submitting}
+                      size="lg"
+                      className="px-5"
+                    >
+                      {submitting ? 'Submitting...' : 'Submit Test'}
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="primary"
+                      onClick={handleNext}
+                      size="lg"
+                      className="px-4"
+                    >
+                      Next →
+                    </Button>
+                  )}
+                </div>
               </div>
-            </Card.Body>
-          </Card>
+            </Col>
+
+            {/* Question Navigator - Right Sidebar */}
+            <Col lg={3}>
+              <Card className="border-0 shadow-sm sticky-top" style={{ top: '20px' }}>
+                <Card.Body className="p-4">
+                  <h6 className="fw-bold mb-3">Question Navigator</h6>
+                  <div className="d-grid gap-2" style={{ gridTemplateColumns: 'repeat(3, 1fr)' }}>
+                    {questions.map((q, index) => (
+                      <Button
+                        key={q.id}
+                        variant={
+                          index === currentQuestion
+                            ? 'primary'
+                            : answers[q.id]
+                            ? 'success'
+                            : 'outline-secondary'
+                        }
+                        size="sm"
+                        onClick={() => setCurrentQuestion(index)}
+                        className="question-nav-btn"
+                      >
+                        {index + 1}
+                      </Button>
+                    ))}
+                  </div>
+
+                  <hr className="my-4" />
+
+                  <div className="legend">
+                    <div className="d-flex align-items-center mb-2">
+                      <div className="legend-box bg-primary"></div>
+                      <small className="text-muted">Current</small>
+                    </div>
+                    <div className="d-flex align-items-center mb-2">
+                      <div className="legend-box bg-success"></div>
+                      <small className="text-muted">Answered</small>
+                    </div>
+                    <div className="d-flex align-items-center">
+                      <div className="legend-box border"></div>
+                      <small className="text-muted">Not Answered</small>
+                    </div>
+                  </div>
+                </Card.Body>
+              </Card>
+            </Col>
+          </Row>
         </Container>
       </div>
     </div>

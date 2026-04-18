@@ -44,6 +44,90 @@
 }
 
 /* Test Page Styles */
+.test-option {
+  border: 2px solid #e9ecef;
+  background-color: #fff;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  position: relative;
+}
+
+.test-option:hover {
+  background-color: rgba(13, 110, 253, 0.05);
+  border-color: var(--bs-primary);
+  transform: translateX(5px);
+}
+
+.test-option.selected {
+  background-color: rgba(13, 110, 253, 0.1);
+  border-color: var(--bs-primary);
+  border-width: 3px;
+  box-shadow: 0 4px 12px rgba(13, 110, 253, 0.2);
+}
+
+.option-badge {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background-color: #e9ecef;
+  color: #495057;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: all 0.3s ease;
+  flex-shrink: 0;
+}
+
+.option-badge.selected {
+  background-color: var(--bs-primary);
+  color: white;
+}
+
+.option-text {
+  font-size: 1rem;
+  color: #212529;
+  font-weight: 500;
+}
+
+.test-option.selected .option-text {
+  color: var(--bs-primary);
+  font-weight: 600;
+}
+
+/* Question Navigator Styles */
+.question-nav-btn {
+  aspect-ratio: 1;
+  padding: 0.5rem;
+  font-weight: 600;
+  border-radius: 8px;
+  transition: all 0.2s ease;
+}
+
+.question-nav-btn:hover {
+  transform: scale(1.1);
+}
+
+.question-nav-btn.btn-outline-secondary {
+  background-color: #fff;
+}
+
+/* Legend Styles */
+.legend-box {
+  width: 24px;
+  height: 24px;
+  border-radius: 6px;
+  margin-right: 10px;
+  flex-shrink: 0;
+}
+
+.legend-box.border {
+  border: 2px solid #6c757d;
+  background-color: #fff;
+}
+
+/* Old option card styles (keeping for backward compatibility) */
 .option-card {
   transition: all 0.2s ease;
   background-color: #fff;
@@ -106,6 +190,37 @@
 
   .semester-tabs .nav-item {
     flex-shrink: 0;
+  }
+
+  /* Test Page Mobile Styles */
+  .test-option {
+    padding: 1rem !important;
+  }
+
+  .option-badge {
+    width: 32px;
+    height: 32px;
+    font-size: 0.9rem;
+  }
+
+  .option-text {
+    font-size: 0.9rem;
+  }
+
+  .question-nav-btn {
+    padding: 0.4rem;
+    font-size: 0.85rem;
+  }
+
+  /* Stack the layout on mobile */
+  .test-page-row {
+    flex-direction: column-reverse;
+  }
+
+  .sticky-top {
+    position: relative !important;
+    top: 0 !important;
+    margin-bottom: 1rem;
   }
 }
 
