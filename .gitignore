@@ -1,8 +1,4 @@
 # ===================================
-# StudyNest Project - .gitignore
-# ===================================
-
-# ===================================
 # Backend (Java/Spring Boot/Maven)
 # ===================================
 
@@ -83,19 +79,10 @@ Thumbs.db
 *.bak
 *.cache
 
+# Shell scripts
+*.sh
+
 # ===================================
 # Git
 # ===================================
 .git/
-
-# ===================================
-# Documentation (Optional - Keep if needed)
-# ===================================
-# Uncomment to ignore documentation files
-# *.md
-# !README.md
-
-# ===================================
-# Git Configuration Files
-# ===================================
-.gitignore
