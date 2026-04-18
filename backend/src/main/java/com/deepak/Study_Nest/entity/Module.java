@@ -22,8 +22,14 @@ public class Module {
     @Column(nullable = false)
     private String name;
 
+    @Column(nullable = false, unique = true)
+    private String code;
+
     @Column(nullable = false)
     private Integer semester;
+
+    @Column(length = 2000)
+    private String description;
 
     @Column(length = 1000)
     private String imageUrl;

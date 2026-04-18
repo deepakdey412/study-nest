@@ -40,11 +40,67 @@ public class ModuleService {
         return convertToDto(module);
     }
 
+    @Transactional
+    public ModuleDto createModule(ModuleDto moduleDto) {
+        log.info("Creating new module: {}", moduleDto.getName());
+        
+        Module module = Module.builder()
+                .name(moduleDto.getName())
+                .code(moduleDto.getCode())
+                .semester(moduleDto.getSemester())
+                .description(moduleDto.getDescription())
+                .imageUrl(moduleDto.getImageUrl())
+                .pdfUrl(moduleDto.getPdfUrl())
+                .videoLink(moduleDto.getVideoLink())
+                .externalLinks(moduleDto.getExternalLinks())
+                .build();
+        
+        Module savedModule = moduleRepository.save(module);
+        log.info("Module created successfully with id: {}", savedModule.getId());
+        
+        return convertToDto(savedModule);
+    }
+
+    @Transactional
+    public ModuleDto updateModule(Long id, ModuleDto moduleDto) {
+        log.info("Updating module with id: {}", id);
+        
+        Module module = moduleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Module not found with id: " + id));
+        
+        module.setName(moduleDto.getName());
+        module.setCode(moduleDto.getCode());
+        module.setSemester(moduleDto.getSemester());
+        module.setDescription(moduleDto.getDescription());
+        module.setImageUrl(moduleDto.getImageUrl());
+        module.setPdfUrl(moduleDto.getPdfUrl());
+        module.setVideoLink(moduleDto.getVideoLink());
+        module.setExternalLinks(moduleDto.getExternalLinks());
+        
+        Module updatedModule = moduleRepository.save(module);
+        log.info("Module updated successfully: {}", updatedModule.getName());
+        
+        return convertToDto(updatedModule);
+    }
+
+    @Transactional
+    public void deleteModule(Long id) {
+        log.info("Deleting module with id: {}", id);
+        
+        Module module = moduleRepository.findById(id)
+                .orElseThrow(() -> new ResourceNotFoundException("Module not found with id: " + id));
+        
+        moduleRepository.delete(module);
+        log.info("Module deleted successfully: {}", module.getName());
+    }
+
     private ModuleDto convertToDto(Module module) {
         return ModuleDto.builder()
                 .id(module.getId())
                 .name(module.getName())
+                .code(module.getCode())
                 .semester(module.getSemester())
+                .description(module.getDescription())
                 .imageUrl(module.getImageUrl())
                 .pdfUrl(module.getPdfUrl())
                 .videoLink(module.getVideoLink())

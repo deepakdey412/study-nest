@@ -12,7 +12,9 @@ import lombok.NoArgsConstructor;
 public class ModuleDto {
     private Long id;
     private String name;
+    private String code;
     private Integer semester;
+    private String description;
     private String imageUrl;
     private String pdfUrl;
     private String videoLink;

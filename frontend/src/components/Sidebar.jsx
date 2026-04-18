@@ -1,5 +1,5 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, ClipboardList, Award, User, GraduationCap, LogOut } from 'lucide-react';
+import { Home, BookOpen, ClipboardList, Award, User, GraduationCap, LogOut, Settings } from 'lucide-react';
 
 const Sidebar = ({ role, onLogout, user }) => {
   const location = useLocation();
@@ -20,7 +20,8 @@ const Sidebar = ({ role, onLogout, user }) => {
 
   const tutorLinks = [
     { path: '/tutor/dashboard', icon: Home, label: 'Dashboard' },
-    { path: '/tutor/modules', icon: GraduationCap, label: 'Modules' }
+    { path: '/tutor/modules', icon: GraduationCap, label: 'Modules' },
+    { path: '/tutor/manage-modules', icon: Settings, label: 'Manage Modules' }
   ];
 
   const links = role === 'STUDENT' ? studentLinks : tutorLinks;

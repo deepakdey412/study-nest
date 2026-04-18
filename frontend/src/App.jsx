@@ -16,6 +16,7 @@ import CertificatePage from './pages/student/CertificatePage';
 import ProfilePage from './pages/student/ProfilePage';
 import TutorDashboard from './pages/tutor/TutorDashboard';
 import TutorModulesPage from './pages/tutor/TutorModulesPage';
+import ModuleManagementPage from './pages/tutor/ModuleManagementPage';
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
@@ -122,6 +123,14 @@ function App() {
           element={
             <ProtectedRoute user={user} requiredRole="TUTOR">
               <TutorModulesPage user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/tutor/manage-modules"
+          element={
+            <ProtectedRoute user={user} requiredRole="TUTOR">
+              <ModuleManagementPage user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />
