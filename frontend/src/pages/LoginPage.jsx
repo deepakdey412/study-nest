@@ -53,10 +53,10 @@ const LoginPage = ({ onLogin }) => {
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label><FaEnvelope className="me-2" />Email Address</Form.Label>
+                    <Form.Label><FaEnvelope className="me-2" />Email / Username</Form.Label>
                     <Form.Control
-                      type="email"
-                      placeholder="Enter your email"
+                      type="text"
+                      placeholder="Enter your email or username"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
