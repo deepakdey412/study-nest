@@ -177,7 +177,7 @@ const Sidebar = ({ role, onLogout, user }) => {
 
       {/* Sidebar */}
       <div style={styles.sidebar}>
-      <div style={styles.logoSection} onClick={() => navigate(role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard')}>
+      <div style={styles.logoSection} onClick={() => navigate('/')}>
         <Logo color="#0EA5E9" />
         <span style={styles.logoText}>StudyNest</span>
       </div>
