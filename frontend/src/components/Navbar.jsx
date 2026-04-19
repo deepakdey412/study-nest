@@ -8,11 +8,11 @@ const Navbar = ({ user, onLogout }) => {
     navbar: {
       backgroundColor: '#fff',
       boxShadow: '0 2px 8px rgba(0, 0, 0, 0.08)',
-      padding: '1rem 2rem',
+      padding: '1rem',
       position: 'sticky',
       top: 0,
       zIndex: 100,
-      marginLeft: '260px',
+      marginLeft: window.innerWidth >= 1024 ? '260px' : '0',
     },
     container: {
       maxWidth: '100%',
@@ -20,6 +20,7 @@ const Navbar = ({ user, onLogout }) => {
       display: 'flex',
       justifyContent: 'flex-end',
       alignItems: 'center',
+      paddingLeft: window.innerWidth < 1024 ? '3.5rem' : '0',
     },
     userInfo: {
       display: 'flex',
@@ -44,6 +45,7 @@ const Navbar = ({ user, onLogout }) => {
       color: '#1E293B',
       fontWeight: 600,
       fontSize: '0.95rem',
+      display: window.innerWidth < 640 ? 'none' : 'block',
     },
   };
 

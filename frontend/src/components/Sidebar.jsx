@@ -1,13 +1,39 @@
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { Home, BookOpen, ClipboardList, Award, User, GraduationCap, LogOut, Settings } from 'lucide-react';
+import { Home, BookOpen, ClipboardList, Award, User, GraduationCap, LogOut, Settings, Menu, X } from 'lucide-react';
+import { useState, useEffect } from 'react';
 
 const Sidebar = ({ role, onLogout, user }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const [isOpen, setIsOpen] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 1024);
+      if (window.innerWidth >= 1024) {
+        setIsOpen(false);
+      }
+    };
+    
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
+  }, []);
 
   const handleLogout = () => {
     onLogout();
     navigate('/');
+  };
+
+  const toggleSidebar = () => {
+    setIsOpen(!isOpen);
+  };
+
+  const closeSidebar = () => {
+    if (isMobile) {
+      setIsOpen(false);
+    }
   };
 
   const studentLinks = [
@@ -37,6 +63,32 @@ const Sidebar = ({ role, onLogout, user }) => {
   );
 
   const styles = {
+    hamburger: {
+      position: 'fixed',
+      top: '1rem',
+      left: '1rem',
+      zIndex: 1100,
+      backgroundColor: '#1E293B',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '8px',
+      padding: '0.75rem',
+      cursor: 'pointer',
+      display: isMobile ? 'flex' : 'none',
+      alignItems: 'center',
+      justifyContent: 'center',
+      boxShadow: '0 4px 6px rgba(0, 0, 0, 0.1)',
+    },
+    overlay: {
+      position: 'fixed',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      backgroundColor: 'rgba(0, 0, 0, 0.5)',
+      zIndex: 1000,
+      display: isMobile && isOpen ? 'block' : 'none',
+    },
     sidebar: {
       width: '260px',
       backgroundColor: '#1E293B',
@@ -45,12 +97,13 @@ const Sidebar = ({ role, onLogout, user }) => {
       minHeight: '100vh',
       position: 'fixed',
       top: '0',
-      left: '0',
+      left: isMobile ? (isOpen ? '0' : '-260px') : '0',
       bottom: '0',
       overflowY: 'auto',
-      zIndex: 101,
+      zIndex: 1050,
       display: 'flex',
       flexDirection: 'column',
+      transition: 'left 0.3s ease',
     },
     logoSection: {
       display: 'flex',
@@ -113,7 +166,17 @@ const Sidebar = ({ role, onLogout, user }) => {
   };
 
   return (
-    <div style={styles.sidebar}>
+    <>
+      {/* Hamburger Menu Button */}
+      <button style={styles.hamburger} onClick={toggleSidebar}>
+        {isOpen ? <X size={24} /> : <Menu size={24} />}
+      </button>
+
+      {/* Overlay */}
+      <div style={styles.overlay} onClick={closeSidebar} />
+
+      {/* Sidebar */}
+      <div style={styles.sidebar}>
       <div style={styles.logoSection} onClick={() => navigate(role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard')}>
         <Logo color="#0EA5E9" />
         <span style={styles.logoText}>StudyNest</span>
@@ -131,6 +194,7 @@ const Sidebar = ({ role, onLogout, user }) => {
                 ...styles.link,
                 ...(isActive ? styles.linkActive : {}),
               }}
+              onClick={closeSidebar}
               onMouseEnter={(e) => {
                 if (!isActive) {
                   e.currentTarget.style.backgroundColor = '#334155';
@@ -169,6 +233,7 @@ const Sidebar = ({ role, onLogout, user }) => {
         </button>
       </div>
     </div>
+    </>
   );
 };
 

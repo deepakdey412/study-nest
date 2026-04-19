@@ -6,14 +6,14 @@ const TopBar = ({ user }) => {
       position: 'fixed',
       top: 0,
       right: 0,
-      left: '260px',
+      left: window.innerWidth >= 1024 ? '260px' : '0',
       height: '60px',
       backgroundColor: '#fff',
       borderBottom: '1px solid #E5E7EB',
       display: 'flex',
       alignItems: 'center',
       justifyContent: 'flex-end',
-      padding: '0 2rem',
+      padding: window.innerWidth < 1024 ? '0 1rem 0 4rem' : '0 2rem',
       zIndex: 100,
     },
     userInfo: {
@@ -39,6 +39,7 @@ const TopBar = ({ user }) => {
       color: '#1E293B',
       fontWeight: 600,
       fontSize: '0.95rem',
+      display: window.innerWidth < 640 ? 'none' : 'block',
     },
   };
 

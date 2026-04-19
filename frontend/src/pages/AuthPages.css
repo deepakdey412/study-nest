@@ -27,3 +27,41 @@
     transform: translateY(0);
   }
 }
+
+@media (max-width: 768px) {
+  .auth-page {
+    padding: 1rem !important;
+  }
+
+  .auth-card {
+    margin: 1rem 0 !important;
+  }
+
+  .auth-card h2 {
+    font-size: 1.5rem !important;
+  }
+
+  .auth-card .form-control-lg {
+    padding: 10px 16px;
+    font-size: 1rem;
+  }
+
+  .auth-card .btn-lg {
+    padding: 10px 20px;
+    font-size: 1rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .auth-card {
+    border-radius: 15px;
+  }
+
+  .auth-card h2 {
+    font-size: 1.35rem !important;
+  }
+
+  .auth-card .form-label {
+    font-size: 0.9rem;
+  }
+}

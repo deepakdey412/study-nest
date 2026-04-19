@@ -19,3 +19,41 @@
   font-size: 0.75rem;
   padding: 0.35em 0.65em;
 }
+
+@media (max-width: 768px) {
+  .module-card {
+    margin-bottom: 1rem;
+  }
+
+  .module-card .card-title {
+    font-size: 1rem;
+  }
+
+  .module-card .card-text {
+    font-size: 0.9rem;
+  }
+
+  .module-card .badge {
+    font-size: 0.7rem;
+    padding: 0.3em 0.6em;
+  }
+
+  .module-card img {
+    height: 150px !important;
+    object-fit: cover;
+  }
+}
+
+@media (max-width: 480px) {
+  .module-card .card-title {
+    font-size: 0.95rem;
+  }
+
+  .module-card .card-text {
+    font-size: 0.85rem;
+  }
+
+  .module-card img {
+    height: 120px !important;
+  }
+}

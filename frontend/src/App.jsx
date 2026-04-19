@@ -20,6 +20,7 @@ import ModuleManagementPage from './pages/tutor/ModuleManagementPage';
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
+import MobileWarningBanner from './components/MobileWarningBanner';
 
 function App() {
   const [user, setUser] = useState(null);
@@ -44,6 +45,7 @@ function App() {
 
   return (
     <Router>
+      <MobileWarningBanner />
       <Routes>
         {/* Public Routes */}
         <Route path="/" element={<LandingPage />} />

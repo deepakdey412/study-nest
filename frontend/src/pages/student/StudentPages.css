@@ -214,6 +214,18 @@
 }
 
 /* Responsive Styles */
+@media (max-width: 1024px) {
+  .main-content {
+    margin-left: 0 !important;
+    padding: 1rem !important;
+  }
+
+  .container-fluid {
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+}
+
 @media (max-width: 768px) {
   .stat-icon {
     width: 48px;
@@ -223,10 +235,21 @@
   .semester-tabs {
     overflow-x: auto;
     flex-wrap: nowrap;
+    -webkit-overflow-scrolling: touch;
   }
 
   .semester-tabs .nav-item {
     flex-shrink: 0;
+  }
+
+  /* Card spacing */
+  .card {
+    margin-bottom: 1rem !important;
+  }
+
+  /* Reduce padding on mobile */
+  .card-body {
+    padding: 1rem !important;
   }
 
   /* Test Page Mobile Styles */
@@ -262,6 +285,56 @@
     position: relative !important;
     top: 0 !important;
     margin-bottom: 1rem;
+  }
+
+  /* Profile avatar smaller on mobile */
+  .profile-avatar {
+    width: 100px;
+    height: 100px;
+    font-size: 2.5rem;
+  }
+
+  /* Button text smaller on mobile */
+  .btn {
+    font-size: 0.9rem;
+    padding: 0.5rem 1rem;
+  }
+
+  /* Table responsive */
+  .table {
+    font-size: 0.85rem;
+  }
+}
+
+@media (max-width: 480px) {
+  /* Extra small screens */
+  h1 {
+    font-size: 1.75rem !important;
+  }
+
+  h2 {
+    font-size: 1.5rem !important;
+  }
+
+  h3 {
+    font-size: 1.25rem !important;
+  }
+
+  h4 {
+    font-size: 1.1rem !important;
+  }
+
+  .card-title {
+    font-size: 1rem !important;
+  }
+
+  .stat-icon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .question-nav-grid {
+    grid-template-columns: repeat(4, 1fr);
   }
 }
 

@@ -64,12 +64,78 @@
   background: linear-gradient(135deg, #f093fb 0%, #f5576c 100%);
 }
 
+@media (max-width: 1024px) {
+  .hero-section {
+    padding: 3rem 1rem !important;
+  }
+
+  .feature-card {
+    margin-bottom: 1.5rem;
+  }
+
+  .semester-card {
+    margin-bottom: 1rem;
+  }
+}
+
 @media (max-width: 768px) {
+  .hero-section {
+    padding: 2rem 1rem !important;
+  }
+
   .hero-section h1 {
-    font-size: 2.5rem;
+    font-size: 2rem !important;
   }
   
   .hero-section .lead {
-    font-size: 1rem;
+    font-size: 1rem !important;
+  }
+
+  .hero-section .btn {
+    font-size: 0.9rem;
+    padding: 0.6rem 1.5rem;
+  }
+
+  .feature-card {
+    padding: 1.5rem !important;
+  }
+
+  .feature-card h3 {
+    font-size: 1.25rem !important;
+  }
+
+  .semester-card h4 {
+    font-size: 1.1rem !important;
+  }
+
+  .cta-section h2 {
+    font-size: 1.75rem !important;
+  }
+
+  .cta-section p {
+    font-size: 1rem !important;
+  }
+}
+
+@media (max-width: 480px) {
+  .hero-section h1 {
+    font-size: 1.75rem !important;
+  }
+
+  .hero-section .lead {
+    font-size: 0.9rem !important;
+  }
+
+  .btn-lg {
+    font-size: 0.85rem !important;
+    padding: 0.5rem 1.25rem !important;
+  }
+
+  .feature-card h3 {
+    font-size: 1.1rem !important;
+  }
+
+  .semester-card {
+    padding: 1rem !important;
   }
 }
