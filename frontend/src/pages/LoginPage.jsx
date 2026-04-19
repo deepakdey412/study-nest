@@ -36,6 +36,10 @@ const LoginPage = ({ onLogin }) => {
     }
   };
 
+  const handleAdminLogin = () => {
+    setFormData({ email: 'admin@studynest.com', password: 'admin123' });
+  };
+
   return (
     <div className="auth-page">
       <Container className="py-5">
@@ -53,10 +57,10 @@ const LoginPage = ({ onLogin }) => {
 
                 <Form onSubmit={handleSubmit}>
                   <Form.Group className="mb-3">
-                    <Form.Label><FaEnvelope className="me-2" />Email / Username</Form.Label>
+                    <Form.Label><FaEnvelope className="me-2" />Email Address</Form.Label>
                     <Form.Control
-                      type="text"
-                      placeholder="Enter your email or username"
+                      type="email"
+                      placeholder="Enter your email"
                       value={formData.email}
                       onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                       required
@@ -93,6 +97,16 @@ const LoginPage = ({ onLogin }) => {
                     size="lg"
                   >
                     {loading ? 'Logging in...' : 'Login'}
+                  </Button>
+
+                  <Button 
+                    variant="outline-danger" 
+                    type="button" 
+                    className="w-100 mb-3 py-2 fw-bold" 
+                    onClick={handleAdminLogin}
+                    size="lg"
+                  >
+                    🔐 Login as Admin
                   </Button>
                 </Form>
 

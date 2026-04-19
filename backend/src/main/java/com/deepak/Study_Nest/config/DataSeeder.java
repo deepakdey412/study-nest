@@ -53,12 +53,12 @@ public class DataSeeder implements CommandLineRunner {
     private void seedSuperAdmin() {
         if (superAdminRepository.count() == 0) {
             SuperAdmin superAdmin = SuperAdmin.builder()
-                    .username("admin")
+                    .email("admin@studynest.com")
                     .password(passwordEncoder.encode("admin123"))
                     .name("Super Admin")
                     .build();
             superAdminRepository.save(superAdmin);
-            log.info("Super Admin created - Username: admin, Password: admin123");
+            log.info("Super Admin created - Email: admin@studynest.com, Password: admin123");
         } else {
             log.info("Super Admin already exists");
         }

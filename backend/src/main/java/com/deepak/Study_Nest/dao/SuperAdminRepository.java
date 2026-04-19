@@ -9,5 +9,5 @@ import com.deepak.Study_Nest.entity.SuperAdmin;
 
 @Repository
 public interface SuperAdminRepository extends JpaRepository<SuperAdmin, Long> {
-    Optional<SuperAdmin> findByUsername(String username);
+    Optional<SuperAdmin> findByEmail(String email);
 }

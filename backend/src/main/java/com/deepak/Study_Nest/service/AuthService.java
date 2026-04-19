@@ -99,19 +99,19 @@ public class AuthService {
     }
 
     public AuthResponseDto login(LoginDto dto) {
-        log.info("Login attempt for email/username: {}", dto.email());
+        log.info("Login attempt for email: {}", dto.email());
 
-        // Check super admin (by username)
-        var superAdminOpt = superAdminRepo.findByUsername(dto.email());
+        // Check super admin (by email)
+        var superAdminOpt = superAdminRepo.findByEmail(dto.email());
         if (superAdminOpt.isPresent()) {
             SuperAdmin superAdmin = superAdminOpt.get();
             if (passwordEncoder.matches(dto.password(), superAdmin.getPassword())) {
-                String token = jwtUtil.generateToken(superAdmin.getUsername());
-                log.info("Super Admin logged in successfully: {}", superAdmin.getUsername());
+                String token = jwtUtil.generateToken(superAdmin.getEmail());
+                log.info("Super Admin logged in successfully: {}", superAdmin.getEmail());
                 return AuthResponseDto.builder()
                         .token(token)
                         .role("SUPER_ADMIN")
-                        .email(superAdmin.getUsername())
+                        .email(superAdmin.getEmail())
                         .name(superAdmin.getName())
                         .build();
             }
