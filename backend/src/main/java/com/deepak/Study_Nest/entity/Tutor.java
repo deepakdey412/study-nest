@@ -32,6 +32,7 @@ public class Tutor {
     @Column(nullable = false)
     private String password;
 
+    @Builder.Default
     @Column(nullable = false)
     private String approvalStatus = "PENDING"; // PENDING, APPROVED, REJECTED
 

@@ -83,6 +83,7 @@ public class AuthService {
                 .mobileNo(dto.mobileNo())
                 .email(dto.email())
                 .password(passwordEncoder.encode(dto.password()))
+                .approvalStatus("PENDING")
                 .build();
 
         tutor = tutorRepo.save(tutor);
