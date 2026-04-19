@@ -468,6 +468,9 @@ const LandingPage = () => {
             <li><a style={styles.navLink} onClick={() => scrollToSection('features')}>Features</a></li>
             <li><a style={styles.navLink} onClick={() => scrollToSection('about')}>About</a></li>
             <li><a style={styles.navLink} onClick={() => scrollToSection('contact')}>Contact</a></li>
+            {user && (
+              <li><a style={styles.navLink} onClick={goToDashboard}>My Dashboard</a></li>
+            )}
           </ul>
 
           <div style={styles.navButtons}>
