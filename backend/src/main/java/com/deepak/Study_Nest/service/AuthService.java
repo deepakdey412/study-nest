@@ -96,6 +96,7 @@ public class AuthService {
                 .role("TUTOR")
                 .email(tutor.getEmail())
                 .name(tutor.getName())
+                .approvalStatus(tutor.getApprovalStatus())
                 .build();
     }
 
@@ -150,6 +151,7 @@ public class AuthService {
                         .role("TUTOR")
                         .email(tutor.getEmail())
                         .name(tutor.getName())
+                        .approvalStatus(tutor.getApprovalStatus())
                         .build();
             }
         }

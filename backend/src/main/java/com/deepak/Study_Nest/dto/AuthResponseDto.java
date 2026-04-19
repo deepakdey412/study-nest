@@ -14,4 +14,5 @@ public class AuthResponseDto {
     private String role;
     private String email;
     private String name;
+    private String approvalStatus; // For tutors: PENDING, APPROVED, REJECTED
 }
