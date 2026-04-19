@@ -46,20 +46,15 @@ const Sidebar = ({ role, onLogout, user }) => {
 
   const tutorLinks = [
     { path: '/tutor/dashboard', icon: Home, label: 'Dashboard' },
-    { path: '/tutor/modules', icon: GraduationCap, label: 'Modules', requiresApproval: true },
-    { path: '/tutor/manage-modules', icon: Settings, label: 'Manage Modules', requiresApproval: true }
+    { path: '/tutor/modules', icon: GraduationCap, label: 'Modules' },
+    { path: '/tutor/manage-modules', icon: Settings, label: 'Manage Modules' }
   ];
 
   const superAdminLinks = [
     { path: '/superadmin/dashboard', icon: Home, label: 'Dashboard' }
   ];
 
-  let links = role === 'STUDENT' ? studentLinks : role === 'SUPER_ADMIN' ? superAdminLinks : tutorLinks;
-  
-  // Filter out links that require approval if tutor is pending
-  if (role === 'TUTOR' && user?.approvalStatus === 'PENDING') {
-    links = links.filter(link => !link.requiresApproval);
-  }
+  const links = role === 'STUDENT' ? studentLinks : role === 'SUPER_ADMIN' ? superAdminLinks : tutorLinks;
 
   // Logo SVG Component
   const Logo = ({ color = '#0EA5E9' }) => (

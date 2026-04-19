@@ -42,8 +42,17 @@ const TutorRegisterPage = ({ onLogin }) => {
     try {
       const { confirmPassword, ...registerData } = formData;
       const response = await authService.registerTutor(registerData);
-      onLogin(response);
-      navigate('/tutor/dashboard');
+      
+      // Check if tutor is pending approval
+      if (response.approvalStatus === 'PENDING') {
+        // Show success message and redirect to login
+        alert('Registration successful! Your account is pending approval. Please wait for admin approval before logging in.');
+        navigate('/login');
+      } else {
+        // If somehow approved immediately, login
+        onLogin(response);
+        navigate('/tutor/dashboard');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Registration failed. Please try again.');
     } finally {

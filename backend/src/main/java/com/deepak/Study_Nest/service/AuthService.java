@@ -87,16 +87,16 @@ public class AuthService {
                 .build();
 
         tutor = tutorRepo.save(tutor);
-        String token = jwtUtil.generateToken(tutor.getEmail());
 
-        log.info("Tutor registered successfully: {}", tutor.getEmail());
+        log.info("Tutor registered successfully - Pending approval: {}", tutor.getEmail());
 
+        // Don't generate token for pending tutors - they need approval first
         return AuthResponseDto.builder()
-                .token(token)
+                .token(null)
                 .role("TUTOR")
                 .email(tutor.getEmail())
                 .name(tutor.getName())
-                .approvalStatus(tutor.getApprovalStatus())
+                .approvalStatus("PENDING")
                 .build();
     }
 
