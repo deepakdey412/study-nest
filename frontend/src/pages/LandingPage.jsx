@@ -744,7 +744,7 @@ const LandingPage = () => {
               </p>
               <div style={{ display: 'flex', gap: '1rem' }}>
                 <a 
-                  href="https://instagram.com" 
+                  href="https://www.instagram.com/deepax.dev/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ color: '#9CA3AF', transition: 'color 0.25s ease' }} 
@@ -754,7 +754,7 @@ const LandingPage = () => {
                   <InstagramIcon />
                 </a>
                 <a 
-                  href="https://github.com" 
+                  href="https://github.com/deepakdey412" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ color: '#9CA3AF', transition: 'color 0.25s ease' }} 
@@ -764,7 +764,7 @@ const LandingPage = () => {
                   <GithubIcon />
                 </a>
                 <a 
-                  href="https://linkedin.com" 
+                  href="https://www.linkedin.com/in/deepakdey/" 
                   target="_blank" 
                   rel="noopener noreferrer"
                   style={{ color: '#9CA3AF', transition: 'color 0.25s ease' }} 
