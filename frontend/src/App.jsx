@@ -17,6 +17,7 @@ import ProfilePage from './pages/student/ProfilePage';
 import TutorDashboard from './pages/tutor/TutorDashboard';
 import TutorModulesPage from './pages/tutor/TutorModulesPage';
 import ModuleManagementPage from './pages/tutor/ModuleManagementPage';
+import SuperAdminDashboard from './pages/superadmin/SuperAdminDashboard';
 
 // Components
 import ProtectedRoute from './components/ProtectedRoute';
@@ -133,6 +134,16 @@ function App() {
           element={
             <ProtectedRoute user={user} requiredRole="TUTOR">
               <ModuleManagementPage user={user} onLogout={handleLogout} />
+            </ProtectedRoute>
+          }
+        />
+
+        {/* Super Admin Protected Routes */}
+        <Route
+          path="/superadmin/dashboard"
+          element={
+            <ProtectedRoute user={user} requiredRole="SUPER_ADMIN">
+              <SuperAdminDashboard user={user} onLogout={handleLogout} />
             </ProtectedRoute>
           }
         />

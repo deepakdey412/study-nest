@@ -1,8 +1,10 @@
 package com.deepak.Study_Nest.security;
 
 import com.deepak.Study_Nest.dao.StudentRepository;
+import com.deepak.Study_Nest.dao.SuperAdminRepository;
 import com.deepak.Study_Nest.dao.TutorRepository;
 import com.deepak.Study_Nest.entity.Student;
+import com.deepak.Study_Nest.entity.SuperAdmin;
 import com.deepak.Study_Nest.entity.Tutor;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -21,11 +23,23 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private final StudentRepository studentRepository;
     private final TutorRepository tutorRepository;
+    private final SuperAdminRepository superAdminRepository;
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-        // Try to find student first
-        Optional<Student> studentOpt = studentRepository.findByEmail(email);
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
+        // Try to find super admin first (by username)
+        Optional<SuperAdmin> superAdminOpt = superAdminRepository.findByUsername(username);
+        if (superAdminOpt.isPresent()) {
+            SuperAdmin superAdmin = superAdminOpt.get();
+            return User.builder()
+                    .username(superAdmin.getUsername())
+                    .password(superAdmin.getPassword())
+                    .authorities(Collections.singletonList(new SimpleGrantedAuthority("ROLE_SUPER_ADMIN")))
+                    .build();
+        }
+
+        // Try to find student by email
+        Optional<Student> studentOpt = studentRepository.findByEmail(username);
         if (studentOpt.isPresent()) {
             Student student = studentOpt.get();
             return User.builder()
@@ -35,8 +49,8 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .build();
         }
 
-        // Try to find tutor
-        Optional<Tutor> tutorOpt = tutorRepository.findByEmail(email);
+        // Try to find tutor by email
+        Optional<Tutor> tutorOpt = tutorRepository.findByEmail(username);
         if (tutorOpt.isPresent()) {
             Tutor tutor = tutorOpt.get();
             return User.builder()
@@ -46,6 +60,6 @@ public class CustomUserDetailsService implements UserDetailsService {
                     .build();
         }
 
-        throw new UsernameNotFoundException("User not found with email: " + email);
+        throw new UsernameNotFoundException("User not found with username/email: " + username);
     }
 }

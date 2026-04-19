@@ -11,10 +11,12 @@ import com.deepak.Study_Nest.dao.ModuleRepository;
 import com.deepak.Study_Nest.dao.QuestionRepository;
 import com.deepak.Study_Nest.dao.StudentRepository;
 import com.deepak.Study_Nest.dao.StudentResultRepository;
+import com.deepak.Study_Nest.dao.SuperAdminRepository;
 import com.deepak.Study_Nest.entity.Module;
 import com.deepak.Study_Nest.entity.Question;
 import com.deepak.Study_Nest.entity.Student;
 import com.deepak.Study_Nest.entity.StudentResult;
+import com.deepak.Study_Nest.entity.SuperAdmin;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -28,10 +30,14 @@ public class DataSeeder implements CommandLineRunner {
     private final QuestionRepository questionRepository;
     private final StudentRepository studentRepository;
     private final StudentResultRepository studentResultRepository;
+    private final SuperAdminRepository superAdminRepository;
     private final PasswordEncoder passwordEncoder;
 
     @Override
     public void run(String... args) {
+        // Seed SuperAdmin first (always check and create if not exists)
+        seedSuperAdmin();
+
         // Check if data already exists
         if (questionRepository.count() > 0) {
             log.info("Questions already exist. Skipping seeding.");
@@ -42,6 +48,20 @@ public class DataSeeder implements CommandLineRunner {
         seedQuestions();
         seedTestUser();
         log.info("Data seeding completed!");
+    }
+
+    private void seedSuperAdmin() {
+        if (superAdminRepository.count() == 0) {
+            SuperAdmin superAdmin = SuperAdmin.builder()
+                    .username("admin")
+                    .password(passwordEncoder.encode("admin123"))
+                    .name("Super Admin")
+                    .build();
+            superAdminRepository.save(superAdmin);
+            log.info("Super Admin created - Username: admin, Password: admin123");
+        } else {
+            log.info("Super Admin already exists");
+        }
     }
 
     private void seedQuestions() {

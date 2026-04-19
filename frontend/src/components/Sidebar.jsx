@@ -50,7 +50,11 @@ const Sidebar = ({ role, onLogout, user }) => {
     { path: '/tutor/manage-modules', icon: Settings, label: 'Manage Modules' }
   ];
 
-  const links = role === 'STUDENT' ? studentLinks : tutorLinks;
+  const superAdminLinks = [
+    { path: '/superadmin/dashboard', icon: Home, label: 'Dashboard' }
+  ];
+
+  const links = role === 'STUDENT' ? studentLinks : role === 'SUPER_ADMIN' ? superAdminLinks : tutorLinks;
 
   // Logo SVG Component
   const Logo = ({ color = '#0EA5E9' }) => (

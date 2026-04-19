@@ -1,12 +1,14 @@
 package com.deepak.Study_Nest.service;
 
 import com.deepak.Study_Nest.dao.StudentRepository;
+import com.deepak.Study_Nest.dao.SuperAdminRepository;
 import com.deepak.Study_Nest.dao.TutorRepository;
 import com.deepak.Study_Nest.dto.AuthResponseDto;
 import com.deepak.Study_Nest.dto.LoginDto;
 import com.deepak.Study_Nest.dto.StudentRegisterDto;
 import com.deepak.Study_Nest.dto.TutorRegisterDto;
 import com.deepak.Study_Nest.entity.Student;
+import com.deepak.Study_Nest.entity.SuperAdmin;
 import com.deepak.Study_Nest.entity.Tutor;
 import com.deepak.Study_Nest.exception.DuplicateResourceException;
 import com.deepak.Study_Nest.exception.InvalidCredentialsException;
@@ -24,6 +26,7 @@ public class AuthService {
 
     private final StudentRepository studentRepo;
     private final TutorRepository tutorRepo;
+    private final SuperAdminRepository superAdminRepo;
     private final PasswordEncoder passwordEncoder;
     private final JwtUtil jwtUtil;
 
@@ -96,7 +99,23 @@ public class AuthService {
     }
 
     public AuthResponseDto login(LoginDto dto) {
-        log.info("Login attempt for email: {}", dto.email());
+        log.info("Login attempt for email/username: {}", dto.email());
+
+        // Check super admin (by username)
+        var superAdminOpt = superAdminRepo.findByUsername(dto.email());
+        if (superAdminOpt.isPresent()) {
+            SuperAdmin superAdmin = superAdminOpt.get();
+            if (passwordEncoder.matches(dto.password(), superAdmin.getPassword())) {
+                String token = jwtUtil.generateToken(superAdmin.getUsername());
+                log.info("Super Admin logged in successfully: {}", superAdmin.getUsername());
+                return AuthResponseDto.builder()
+                        .token(token)
+                        .role("SUPER_ADMIN")
+                        .email(superAdmin.getUsername())
+                        .name(superAdmin.getName())
+                        .build();
+            }
+        }
 
         // Check student
         var studentOpt = studentRepo.findByEmail(dto.email());
@@ -119,6 +138,10 @@ public class AuthService {
         if (tutorOpt.isPresent()) {
             Tutor tutor = tutorOpt.get();
             if (passwordEncoder.matches(dto.password(), tutor.getPassword())) {
+                // Check if tutor is approved
+                if (!"APPROVED".equals(tutor.getApprovalStatus())) {
+                    throw new InvalidCredentialsException("Your account is pending approval. Please wait for admin approval.");
+                }
                 String token = jwtUtil.generateToken(tutor.getEmail());
                 log.info("Tutor logged in successfully: {}", tutor.getEmail());
                 return AuthResponseDto.builder()
@@ -130,7 +153,7 @@ public class AuthService {
             }
         }
 
-        log.warn("Invalid login attempt for email: {}", dto.email());
-        throw new InvalidCredentialsException("Invalid email or password");
+        log.warn("Invalid login attempt for email/username: {}", dto.email());
+        throw new InvalidCredentialsException("Invalid email/username or password");
     }
 }

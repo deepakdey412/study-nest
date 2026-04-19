@@ -1,0 +1,13 @@
+package com.deepak.Study_Nest.dto;
+
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
+@AllArgsConstructor
+public class ApprovalRequestDto {
+    private Long tutorId;
+    private String status; // APPROVED or REJECTED
+}

@@ -70,7 +70,12 @@ const LandingPage = () => {
   // Navigate to dashboard
   const goToDashboard = () => {
     if (user) {
-      const dashboardPath = user.role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard';
+      let dashboardPath = '/student/dashboard';
+      if (user.role === 'SUPER_ADMIN') {
+        dashboardPath = '/superadmin/dashboard';
+      } else if (user.role === 'TUTOR') {
+        dashboardPath = '/tutor/dashboard';
+      }
       navigate(dashboardPath);
     }
   };

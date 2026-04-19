@@ -20,7 +20,15 @@ const LoginPage = ({ onLogin }) => {
     try {
       const response = await authService.login(formData);
       onLogin(response);
-      navigate(response.role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard');
+      
+      // Redirect based on role
+      if (response.role === 'SUPER_ADMIN') {
+        navigate('/superadmin/dashboard');
+      } else if (response.role === 'STUDENT') {
+        navigate('/student/dashboard');
+      } else {
+        navigate('/tutor/dashboard');
+      }
     } catch (err) {
       setError(err.response?.data?.message || 'Login failed. Please check your credentials.');
     } finally {

@@ -32,6 +32,9 @@ public class Tutor {
     @Column(nullable = false)
     private String password;
 
+    @Column(nullable = false)
+    private String approvalStatus = "PENDING"; // PENDING, APPROVED, REJECTED
+
     @CreationTimestamp
     @Column(updatable = false)
     private LocalDateTime createdAt;
