@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { 
   BookOpen, 
   GraduationCap, 
@@ -13,17 +13,28 @@ import {
   Star,
   ChevronLeft,
   ChevronRight,
-  Award
+  Award,
+  LogOut,
+  User
 } from 'lucide-react';
 
 const LandingPage = () => {
+  const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [currentTestimonial, setCurrentTestimonial] = useState(0);
+  const [user, setUser] = useState(null);
 
   console.log('LandingPage rendering...');
 
   useEffect(() => {
+    // Check if user is logged in
+    const token = localStorage.getItem('token');
+    const userData = localStorage.getItem('user');
+    if (token && userData) {
+      setUser(JSON.parse(userData));
+    }
+
     // Load Google Fonts
     const link = document.createElement('link');
     link.href = 'https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;700&family=Fraunces:wght@700&display=swap';
@@ -45,6 +56,22 @@ const LandingPage = () => {
     if (element) {
       element.scrollIntoView({ behavior: 'smooth' });
       setIsMobileMenuOpen(false);
+    }
+  };
+
+  // Handle logout
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
+    setUser(null);
+    navigate('/');
+  };
+
+  // Navigate to dashboard
+  const goToDashboard = () => {
+    if (user) {
+      const dashboardPath = user.role === 'STUDENT' ? '/student/dashboard' : '/tutor/dashboard';
+      navigate(dashboardPath);
     }
   };
 
@@ -444,8 +471,61 @@ const LandingPage = () => {
           </ul>
 
           <div style={styles.navButtons}>
-            <Link to="/login" style={{ ...styles.button, ...styles.buttonOutline }}>Login</Link>
-            <Link to="/register/student" style={{ ...styles.button, ...styles.buttonPrimary }}>Sign Up</Link>
+            {user ? (
+              <>
+                <div 
+                  style={{ 
+                    display: 'flex', 
+                    alignItems: 'center', 
+                    gap: '0.75rem',
+                    padding: '0.5rem 1rem',
+                    backgroundColor: isScrolled ? '#F0F9FF' : 'rgba(255, 255, 255, 0.2)',
+                    borderRadius: '9999px',
+                    border: `1px solid ${isScrolled ? '#BAE6FD' : 'rgba(255, 255, 255, 0.3)'}`,
+                    cursor: 'pointer'
+                  }}
+                  onClick={goToDashboard}
+                >
+                  <div style={{
+                    width: '32px',
+                    height: '32px',
+                    borderRadius: '50%',
+                    backgroundColor: '#0EA5E9',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    color: '#fff'
+                  }}>
+                    <User size={18} />
+                  </div>
+                  <span style={{ 
+                    color: isScrolled ? '#1E293B' : '#fff', 
+                    fontWeight: 600,
+                    fontSize: '0.95rem'
+                  }}>
+                    {user.name}
+                  </span>
+                </div>
+                <button 
+                  onClick={handleLogout}
+                  style={{ 
+                    ...styles.button, 
+                    ...styles.buttonOutline,
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.5rem'
+                  }}
+                >
+                  <LogOut size={18} />
+                  Logout
+                </button>
+              </>
+            ) : (
+              <>
+                <Link to="/login" style={{ ...styles.button, ...styles.buttonOutline }}>Login</Link>
+                <Link to="/register/student" style={{ ...styles.button, ...styles.buttonPrimary }}>Sign Up</Link>
+              </>
+            )}
           </div>
 
           <button style={styles.mobileMenuButton} className="mobile-menu-btn" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
